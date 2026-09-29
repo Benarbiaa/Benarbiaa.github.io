@@ -1122,8 +1122,8 @@
         </div>
         <div class="about-item">
           <h3>Leadership</h3>
-          <p><strong>Vice President &amp; Social Media Manager</strong>, Interact Club North Africa. Led a team of 15+
-            members.</p>
+          <p><strong>Technical lead</strong> of a four-team MVP (Mahara Match). <strong>Vice President</strong>,
+            Interact Club North Africa, leading 15+ members.</p>
         </div>
       </div>
     </section>
@@ -1192,8 +1192,8 @@
       <div>
         <div class="skill-row grid">
           <h3>AI &amp; ML</h3>
-          <p class="items">LLM agents <i aria-hidden="true">/</i> RAG <i aria-hidden="true">/</i> Tool calling <i aria-hidden="true">/</i> Vision-language models <i aria-hidden="true">/</i> NLP <i aria-hidden="true">/</i> ChromaDB <i aria-hidden="true">/</i> Groq <i aria-hidden="true">/</i> Ollama <i aria-hidden="true">/</i> PyTorch <i aria-hidden="true">/</i> Scikit-learn <i aria-hidden="true">/</i> YOLO <i aria-hidden="true">/</i> OpenCV <i aria-hidden="true">/</i> Prophet</p>
-          <p class="used"><b>Used in</b>MediDocs, Fuel Monitoring, OCR API, Blind Assistance, Fraud Detection</p>
+          <p class="items">LLM agents <i aria-hidden="true">/</i> RAG <i aria-hidden="true">/</i> LangGraph <i aria-hidden="true">/</i> Tool calling <i aria-hidden="true">/</i> Vision-language models <i aria-hidden="true">/</i> NLP <i aria-hidden="true">/</i> ChromaDB <i aria-hidden="true">/</i> Groq <i aria-hidden="true">/</i> Ollama <i aria-hidden="true">/</i> PyTorch <i aria-hidden="true">/</i> Scikit-learn <i aria-hidden="true">/</i> YOLO <i aria-hidden="true">/</i> OpenCV <i aria-hidden="true">/</i> Prophet</p>
+          <p class="used"><b>Used in</b>Claim-Verify RAG, MediDocs, Fuel Monitoring, OCR API, Blind Assistance</p>
         </div>
         <div class="skill-row grid">
           <h3>Data engineering</h3>
@@ -1208,12 +1208,12 @@
         <div class="skill-row grid">
           <h3>Backend &amp; web</h3>
           <p class="items">FastAPI <i aria-hidden="true">/</i> Django <i aria-hidden="true">/</i> Flask <i aria-hidden="true">/</i> Spring Boot <i aria-hidden="true">/</i> React <i aria-hidden="true">/</i> Angular <i aria-hidden="true">/</i> REST APIs <i aria-hidden="true">/</i> JUnit</p>
-          <p class="used"><b>Used in</b>GTI credit platform, MediDocs, Fuel Monitoring, Education Platform</p>
+          <p class="used"><b>Used in</b>GTI credit platform, MediDocs, Mahara Match, Fuel Monitoring</p>
         </div>
         <div class="skill-row grid">
           <h3>Databases &amp; DevOps</h3>
-          <p class="items">PostgreSQL <i aria-hidden="true">/</i> MySQL <i aria-hidden="true">/</i> MongoDB <i aria-hidden="true">/</i> Docker <i aria-hidden="true">/</i> Docker Compose <i aria-hidden="true">/</i> GitHub Actions (CI/CD) <i aria-hidden="true">/</i> Git <i aria-hidden="true">/</i> Linux <i aria-hidden="true">/</i> Postman</p>
-          <p class="used"><b>Used in</b>Nightly ETL on GitHub Actions, Dockerized Fuel and OCR stacks</p>
+          <p class="items">PostgreSQL <i aria-hidden="true">/</i> pgvector <i aria-hidden="true">/</i> MySQL <i aria-hidden="true">/</i> MongoDB <i aria-hidden="true">/</i> Docker <i aria-hidden="true">/</i> Docker Compose <i aria-hidden="true">/</i> GitHub Actions (CI/CD) <i aria-hidden="true">/</i> Git <i aria-hidden="true">/</i> Linux <i aria-hidden="true">/</i> Postman</p>
+          <p class="used"><b>Used in</b>Mahara Match CI, nightly ETL on GitHub Actions, Dockerized Fuel and OCR stacks</p>
         </div>
       </div>
     </section>
@@ -1222,10 +1222,20 @@
     <section class="sheet alt" id="work" aria-labelledby="work-h">
       <div class="sheet-head">
         <h2 id="work-h">Selected work</h2>
-        <p>Six projects across AI, data, and systems</p>
+        <p>Seven projects across AI, data, and systems</p>
       </div>
 
       <ol class="index">
+        <li><a href="#p-rag">
+            <span class="i-title">Claim-Verify RAG</span>
+            <span class="i-domain">Agentic RAG, LangGraph, fact-checking</span>
+            <span class="i-meta"><span class="status active">In progress</span><span class="tag">Solo</span></span>
+          </a></li>
+        <li><a href="#p-mahara">
+            <span class="i-title">Mahara Match</span>
+            <span class="i-domain">AI job matching, contract-first services</span>
+            <span class="i-meta"><span class="status active">In progress</span><span class="tag">Tech lead</span></span>
+          </a></li>
         <li><a href="#p-fuel">
             <span class="i-title">Fuel Station Monitoring System</span>
             <span class="i-domain">Kafka streaming, LLM agents, forecasting</span>
@@ -1251,11 +1261,6 @@
             <span class="i-domain">Concurrency in Go</span>
             <span class="i-meta"><span class="status">Completed</span></span>
           </a></li>
-        <li><a href="#p-fraud">
-            <span class="i-title">Credit Card Fraud Detection</span>
-            <span class="i-domain">Imbalanced classification</span>
-            <span class="i-meta"><span class="status">Completed</span></span>
-          </a></li>
       </ol>
 
       <div class="sheet-foot">
@@ -1266,6 +1271,88 @@
     </section>
 
     <!-- Projects -->
+    <article class="sheet" id="p-rag" aria-labelledby="p-rag-h">
+      <div class="project-head grid">
+        <h2 id="p-rag-h">Claim-Verify RAG</h2>
+        <div class="project-meta">
+          <span class="status active">In progress</span>
+          <span class="tag">Solo project</span>
+          <span class="private">
+            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"
+              aria-hidden="true"><use href="#i-lock" /></svg>
+            Private, shared on request</span>
+        </div>
+      </div>
+      <div class="project-body grid">
+        <div class="project-media diagram">
+          <img src="assets/projects/rag.png"
+            alt="Architecture: a four-paper corpus is chunked, embedded locally and stored in pgvector; an answer is drafted, split into atomic claims, and each claim is re-verified across all sources, producing a claims-by-sources verdict plate"
+            loading="lazy">
+        </div>
+        <div class="project-text">
+          <div>
+            <h3>What it does</h3>
+            <p>An agentic RAG system that <strong>does not trust its own answer</strong>. It drafts a cited answer,
+              splits it into atomic claims, and re-checks each claim independently against every source. Each claim
+              gets a verdict with the passages it was judged on: supported, contradicted, unverifiable, or
+              <strong>contested</strong> when the sources disagree with each other.</p>
+          </div>
+          <div>
+            <h3>How it's built</h3>
+            <p>PostgreSQL + pgvector with local bge embeddings, per-document retrieval so every source is heard, and
+              a LangGraph verification loop whose judge is a different model family from the drafter. Every stage is
+              swappable from one config file, and a FastAPI + React UI replays recorded runs and streams live ones.</p>
+          </div>
+          <div>
+            <h3>Next</h3>
+            <p>Evaluation: a labelled gold set of claims, per-verdict precision and recall, and a false-contradiction
+              rate, then ablations across retrieval settings and models.</p>
+          </div>
+          <p class="stack">Python, LangGraph, PostgreSQL, pgvector, bge embeddings, Groq, Pydantic, FastAPI, React,
+            TypeScript</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="sheet alt" id="p-mahara" aria-labelledby="p-mahara-h">
+      <div class="project-head grid">
+        <h2 id="p-mahara-h">Mahara Match</h2>
+        <div class="project-meta">
+          <span class="status active">In progress</span>
+          <span class="tag">Technical lead · team of 4</span>
+          <span class="private">
+            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"
+              aria-hidden="true"><use href="#i-lock" /></svg>
+            Private repo</span>
+        </div>
+      </div>
+      <div class="project-body grid">
+        <div class="project-media diagram">
+          <img src="assets/projects/mahara.png"
+            alt="Architecture: a six-step flow from CV upload to dashboard across four services that exchange data only through OpenAPI contracts, held together by CI, an end-to-end test and decision records"
+            loading="lazy">
+        </div>
+        <div class="project-text">
+          <div>
+            <h3>What it is</h3>
+            <p>An AI platform that matches job seekers, employers, training providers and public institutions through
+              one shared skill vocabulary. A CV becomes a structured profile, is matched to jobs with an explanation,
+              and missing skills turn into course recommendations. <strong>An MVP built by four teams in four
+                weeks.</strong></p>
+          </div>
+          <div>
+            <h3>My role</h3>
+            <p>Technical lead. I designed the <strong>contract-first architecture</strong>: OpenAPI contracts with a
+              mock server each, so teams build in parallel, frozen after week one. I set up CI, the end-to-end test of
+              the whole flow and the decision records, and I run the platform team: login and roles, and a 208-skill
+              taxonomy with Arabic labels.</p>
+          </div>
+          <p class="stack">Python, FastAPI, PostgreSQL, OpenAPI, Docker Compose, React, TypeScript, Playwright, GitHub
+            Actions</p>
+        </div>
+      </div>
+    </article>
+
     <article class="sheet" id="p-fuel" aria-labelledby="p-fuel-h">
       <div class="project-head grid">
         <h2 id="p-fuel-h">Fuel Station Monitoring System</h2>
@@ -1440,38 +1527,6 @@
       </div>
     </article>
 
-    <article class="sheet alt" id="p-fraud" aria-labelledby="p-fraud-h">
-      <div class="project-head grid">
-        <h2 id="p-fraud-h">Credit Card Fraud Detection</h2>
-        <div class="project-meta">
-          <span class="status">Completed · Dec 2025</span>
-          <span class="private">
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"
-              aria-hidden="true"><use href="#i-lock" /></svg>
-            No public repo</span>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/fraud.png"
-            alt="Approach: imbalanced transactions, resampled with SMOTE and undersampling, evaluated with ROC-AUC and a confusion matrix; minority-class F1 up 25%"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it does</h3>
-            <p>Supervised fraud detection on highly imbalanced transaction data. I compared <strong>SMOTE and
-                undersampling</strong> against the untreated baseline and evaluated models with AUC-ROC, F1-score, and
-              confusion-matrix analysis.</p>
-          </div>
-          <div>
-            <h3>Result</h3>
-            <p><strong>Minority-class F1-score up 25%</strong> over the untreated baseline.</p>
-          </div>
-          <p class="stack">Python, Scikit-learn, Pandas, Matplotlib</p>
-        </div>
-      </div>
-    </article>
 
   </main>
 
