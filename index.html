@@ -1122,7 +1122,7 @@
         </div>
         <div class="about-item">
           <h3>Leadership</h3>
-          <p><strong>Technical lead</strong> of a four-team MVP (Mahara Match). <strong>Vice President</strong>,
+          <p><strong>Technical lead</strong> on Mahara Match. <strong>Vice President</strong>,
             Interact Club North Africa, leading 15+ members.</p>
         </div>
       </div>
@@ -1228,8 +1228,8 @@
       <ol class="index">
         <li><a href="#p-rag">
             <span class="i-title">Claim-Verify RAG</span>
-            <span class="i-domain">Agentic RAG, LangGraph, fact-checking</span>
-            <span class="i-meta"><span class="status active">In progress</span><span class="tag">Solo</span></span>
+            <span class="i-domain">RAG, hybrid search, fact-checking</span>
+            <span class="i-meta"><span class="status">Completed</span><span class="tag">Solo</span></span>
           </a></li>
         <li><a href="#p-mahara">
             <span class="i-title">Mahara Match</span>
@@ -1275,12 +1275,11 @@
       <div class="project-head grid">
         <h2 id="p-rag-h">Claim-Verify RAG</h2>
         <div class="project-meta">
-          <span class="status active">In progress</span>
+          <span class="status">Completed · Oct 2026</span>
           <span class="tag">Solo project</span>
-          <span class="private">
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"
-              aria-hidden="true"><use href="#i-lock" /></svg>
-            Private, shared on request</span>
+          <a href="https://github.com/Benarbiaa/claim-verify-rag" target="_blank" rel="noopener">Source
+            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
+              aria-hidden="true"><use href="#i-out" /></svg></a>
         </div>
       </div>
       <div class="project-body grid">
@@ -1292,23 +1291,24 @@
         <div class="project-text">
           <div>
             <h3>What it does</h3>
-            <p>An agentic RAG system that <strong>does not trust its own answer</strong>. It drafts a cited answer,
+            <p>A RAG system that <strong>does not trust its own answer</strong>. It drafts a cited answer,
               splits it into atomic claims, and re-checks each claim independently against every source. Each claim
               gets a verdict with the passages it was judged on: supported, contradicted, unverifiable, or
               <strong>contested</strong> when the sources disagree with each other.</p>
           </div>
           <div>
             <h3>How it's built</h3>
-            <p>PostgreSQL + pgvector with local bge embeddings, per-document retrieval so every source is heard, and
-              a LangGraph verification loop whose judge is a different model family from the drafter. Every stage is
+            <p>PostgreSQL + pgvector with local bge embeddings, hybrid search (meaning + BM25) with a cross-encoder
+              reranker, per-document retrieval so every source is heard, and a LangGraph verification loop whose judge is a different model family from the drafter. Every stage is
               swappable from one config file, and a FastAPI + React UI replays recorded runs and streams live ones.</p>
           </div>
           <div>
-            <h3>Next</h3>
-            <p>Evaluation: a labelled gold set of claims, per-verdict precision and recall, and a false-contradiction
-              rate, then ablations across retrieval settings and models.</p>
+            <h3>Results</h3>
+            <p>Every change was measured against a rule fixed in advance. Hybrid search and the reranker raised the
+              share of claims whose proof reaches the judge from <strong>23/44 to 37/44</strong>, and the verifier
+              scores <strong>9/10</strong> on a hand-checked gold set, with no false contradiction.</p>
           </div>
-          <p class="stack">Python, LangGraph, PostgreSQL, pgvector, bge embeddings, Groq, Pydantic, FastAPI, React,
+          <p class="stack">Python, LangGraph, PostgreSQL, pgvector, bge embeddings, BM25, cross-encoder reranker, Groq, Pydantic, FastAPI, React,
             TypeScript</p>
         </div>
       </div>
@@ -1319,7 +1319,7 @@
         <h2 id="p-mahara-h">Mahara Match</h2>
         <div class="project-meta">
           <span class="status active">In progress</span>
-          <span class="tag">Technical lead · team of 4</span>
+          <span class="tag">Technical lead</span>
           <span class="private">
             <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"
               aria-hidden="true"><use href="#i-lock" /></svg>
@@ -1337,13 +1337,12 @@
             <h3>What it is</h3>
             <p>An AI platform that matches job seekers, employers, training providers and public institutions through
               one shared skill vocabulary. A CV becomes a structured profile, is matched to jobs with an explanation,
-              and missing skills turn into course recommendations. <strong>An MVP built by four teams in four
-                weeks.</strong></p>
+              and missing skills turn into course recommendations.</p>
           </div>
           <div>
             <h3>My role</h3>
             <p>Technical lead. I designed the <strong>contract-first architecture</strong>: OpenAPI contracts with a
-              mock server each, so teams build in parallel, frozen after week one. I set up CI, the end-to-end test of
+              mock server each, so teams build in parallel. I set up CI, the end-to-end test of
               the whole flow and the decision records, and I run the platform team: login and roles, and a 208-skill
               taxonomy with Arabic labels.</p>
           </div>
