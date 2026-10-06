@@ -1285,7 +1285,7 @@
       <div class="project-body grid">
         <div class="project-media diagram">
           <img src="assets/projects/rag.png"
-            alt="Architecture: a four-paper corpus is chunked, embedded locally and stored in pgvector; an answer is drafted, split into atomic claims, and each claim is re-verified across all sources, producing a claims-by-sources verdict plate"
+            alt="Architecture: a four-source corpus is cleaned, chunked, embedded locally and stored in pgvector; hybrid retrieval with a reranker feeds a cited draft, which is split into atomic claims, each re-verified across all sources by a separate judge model, producing a claims-by-sources verdict plate. Results: the proof reaches the judge for 37 of 44 claims, up from 23, and verdicts are correct on 9 of 10 gold claims"
             loading="lazy">
         </div>
         <div class="project-text">
