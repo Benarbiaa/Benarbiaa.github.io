@@ -1192,8 +1192,8 @@
       <div>
         <div class="skill-row grid">
           <h3>AI &amp; ML</h3>
-          <p class="items">LLM agents <i aria-hidden="true">/</i> RAG <i aria-hidden="true">/</i> LangGraph <i aria-hidden="true">/</i> Tool calling <i aria-hidden="true">/</i> Vision-language models <i aria-hidden="true">/</i> NLP <i aria-hidden="true">/</i> ChromaDB <i aria-hidden="true">/</i> Groq <i aria-hidden="true">/</i> Ollama <i aria-hidden="true">/</i> PyTorch <i aria-hidden="true">/</i> Scikit-learn <i aria-hidden="true">/</i> YOLO <i aria-hidden="true">/</i> OpenCV <i aria-hidden="true">/</i> Prophet</p>
-          <p class="used"><b>Used in</b>Claim-Verify RAG, MediDocs, Fuel Monitoring, OCR API, Blind Assistance</p>
+          <p class="items">LLM agents <i aria-hidden="true">/</i> RAG <i aria-hidden="true">/</i> LangGraph <i aria-hidden="true">/</i> Tool calling <i aria-hidden="true">/</i> Fine-tuning (QLoRA / PEFT) <i aria-hidden="true">/</i> Hugging Face <i aria-hidden="true">/</i> Vision-language models <i aria-hidden="true">/</i> NLP <i aria-hidden="true">/</i> ChromaDB <i aria-hidden="true">/</i> Groq <i aria-hidden="true">/</i> Ollama <i aria-hidden="true">/</i> PyTorch <i aria-hidden="true">/</i> Scikit-learn <i aria-hidden="true">/</i> YOLO <i aria-hidden="true">/</i> OpenCV <i aria-hidden="true">/</i> Prophet</p>
+          <p class="used"><b>Used in</b>Claim-Verify RAG, Email → JSON, MediDocs, Fuel Monitoring, OCR API, Blind Assistance</p>
         </div>
         <div class="skill-row grid">
           <h3>Data engineering</h3>
@@ -1222,13 +1222,18 @@
     <section class="sheet alt" id="work" aria-labelledby="work-h">
       <div class="sheet-head">
         <h2 id="work-h">Selected work</h2>
-        <p>Seven projects across AI, data, and systems</p>
+        <p>Eight projects across AI, data, and systems</p>
       </div>
 
       <ol class="index">
         <li><a href="#p-rag">
             <span class="i-title">Claim-Verify RAG</span>
             <span class="i-domain">RAG, hybrid search, fact-checking</span>
+            <span class="i-meta"><span class="status">Completed</span><span class="tag">Solo</span></span>
+          </a></li>
+        <li><a href="#p-qlora">
+            <span class="i-title">Recruitment Email → JSON</span>
+            <span class="i-domain">QLoRA fine-tuning, JSON extraction</span>
             <span class="i-meta"><span class="status">Completed</span><span class="tag">Solo</span></span>
           </a></li>
         <li><a href="#p-mahara">
@@ -1314,7 +1319,54 @@
       </div>
     </article>
 
-    <article class="sheet alt" id="p-mahara" aria-labelledby="p-mahara-h">
+    <article class="sheet alt" id="p-qlora" aria-labelledby="p-qlora-h">
+      <div class="project-head grid">
+        <h2 id="p-qlora-h">Recruitment Email → JSON</h2>
+        <div class="project-meta">
+          <span class="status">Completed · Oct 2026</span>
+          <span class="tag">Solo project</span>
+          <a href="https://github.com/Benarbiaa/email-extraction-qlora" target="_blank" rel="noopener">Source
+            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
+              aria-hidden="true"><use href="#i-out" /></svg></a>
+          <a href="https://huggingface.co/BenarbiaEmir/qwen3-4b-recruitment-email-json-qlora" target="_blank"
+            rel="noopener">Model
+            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
+              aria-hidden="true"><use href="#i-out" /></svg></a>
+        </div>
+      </div>
+      <div class="project-body grid">
+        <div class="project-media diagram">
+          <img src="assets/projects/qlora.png"
+            alt="Pipeline: sampled specs, emails written by one generator model and blindly relabeled by another, schema and leakage checks, then QLoRA fine-tuning of Qwen3-4B on a T4 into schema-validated JSON. Example: a French test request resolves 'avant vendredi' to 2026-11-06. Results: exact match 19.5% zero-shot, 22.5% few-shot, 83.5% fine-tuned; 80% on emails from the other generator"
+            loading="lazy">
+        </div>
+        <div class="project-text">
+          <div>
+            <h3>What it does</h3>
+            <p>Fine-tunes <strong>Qwen3-4B with QLoRA</strong> to turn French, English or mixed recruitment emails
+              into a 10-field JSON record validated against a schema: email type, company, contract, interview stage,
+              sender role, and the deadline, resolved from the Date header (<em>avant vendredi</em> becomes a date).</p>
+          </div>
+          <div>
+            <h3>How it's built</h3>
+            <p>A <strong>synthetic data pipeline</strong>: specs sampled in Python, emails written by one generator
+              model and blindly relabeled by another (92% full-record agreement), and an n-gram leakage check between
+              train and test. Trained on one free Colab T4 (4-bit base, LoRA r16), checkpoint chosen on validation
+              loss, adapter published on Hugging Face with a Gradio demo.</p>
+          </div>
+          <div>
+            <h3>Results</h3>
+            <p>Full-record exact match on 200 synthetic test emails rises from <strong>22.5%</strong> (few-shot base
+              model) to <strong>83.5%</strong> (95% CI 78–88.5%), and 80% on emails written by a different model than
+              the training data. Labels are not hand-reviewed yet; the README documents what failed.</p>
+          </div>
+          <p class="stack">Python, PyTorch, Transformers, PEFT, TRL, bitsandbytes, Qwen3, JSON Schema, Gradio, Hugging
+            Face Hub</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="sheet" id="p-mahara" aria-labelledby="p-mahara-h">
       <div class="project-head grid">
         <h2 id="p-mahara-h">Mahara Match</h2>
         <div class="project-meta">
@@ -1352,7 +1404,7 @@
       </div>
     </article>
 
-    <article class="sheet" id="p-fuel" aria-labelledby="p-fuel-h">
+    <article class="sheet alt" id="p-fuel" aria-labelledby="p-fuel-h">
       <div class="project-head grid">
         <h2 id="p-fuel-h">Fuel Station Monitoring System</h2>
         <div class="project-meta">
@@ -1388,7 +1440,7 @@
       </div>
     </article>
 
-    <article class="sheet alt" id="p-bi" aria-labelledby="p-bi-h">
+    <article class="sheet" id="p-bi" aria-labelledby="p-bi-h">
       <div class="project-head grid">
         <h2 id="p-bi-h">Global Education Intelligence Platform</h2>
         <div class="project-meta">
@@ -1424,7 +1476,7 @@
       </div>
     </article>
 
-    <article class="sheet" id="p-ocr" aria-labelledby="p-ocr-h">
+    <article class="sheet alt" id="p-ocr" aria-labelledby="p-ocr-h">
       <div class="project-head grid">
         <h2 id="p-ocr-h">OCR Invoice Parsing API</h2>
         <div class="project-meta">
@@ -1459,7 +1511,7 @@
       </div>
     </article>
 
-    <article class="sheet alt" id="p-blind" aria-labelledby="p-blind-h">
+    <article class="sheet" id="p-blind" aria-labelledby="p-blind-h">
       <div class="project-head grid">
         <h2 id="p-blind-h">Blind Assistance IoT System</h2>
         <div class="project-meta">
@@ -1493,7 +1545,7 @@
       </div>
     </article>
 
-    <article class="sheet" id="p-mapreduce" aria-labelledby="p-mapreduce-h">
+    <article class="sheet alt" id="p-mapreduce" aria-labelledby="p-mapreduce-h">
       <div class="project-head grid">
         <h2 id="p-mapreduce-h">Thread-Based MapReduce System</h2>
         <div class="project-meta">
