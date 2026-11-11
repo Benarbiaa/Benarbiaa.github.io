@@ -25,1665 +25,672 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --paper: #f4f3ef;
-      --paper-2: #fbfaf7;
-      --ink: #0e0e0e;
-      --ink-2: #4a4a48;
-      --rule: #c4c3bd;
-      --blue: #1f2b73;
-      --blue-ink: #dfe1ff;
-
-      --margin: clamp(20px, 4vw, 56px);
-      --gutter: clamp(16px, 1.6vw, 24px);
-      --bar: 56px;
-      --sheet-pad: clamp(36px, 4.5vw, 64px);
-
-      --t-small: .875rem;
-      --t-body: 1rem;
-      --t-lead: clamp(1.1rem, 1.5vw, 1.3rem);
-      --t-h3: clamp(1.15rem, 1.5vw, 1.4rem);
-      --t-h2: clamp(1.9rem, 3.2vw, 2.9rem);
-
-      color-scheme: light;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: var(--bar);
-      scroll-snap-type: y proximity;
-      scrollbar-color: var(--ink) var(--paper);
-      -webkit-text-size-adjust: 100%;
-    }
-
-    body {
-      font-family: 'Schibsted Grotesk', system-ui, sans-serif;
-      font-size: var(--t-body);
-      line-height: 1.55;
-      background: var(--paper);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    ::selection {
-      background: var(--blue);
-      color: #fff;
-    }
-
-    a {
-      color: inherit;
-      text-underline-offset: .18em;
-      text-decoration-thickness: 1.5px;
-    }
-
-    :focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
-    }
-
-    .on-blue :focus-visible {
-      outline-color: #fff;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: var(--gutter);
-    }
-
-    .arrow {
-      width: .72em;
-      height: .72em;
-      flex-shrink: 0;
-      transition: transform .25s cubic-bezier(.16, 1, .3, 1);
-    }
-
-    a:hover .arrow {
-      transform: translate(2px, -2px);
-    }
-
-    .skip {
-      position: absolute;
-      left: -999px;
-      top: 8px;
-      background: var(--ink);
-      color: #fff;
-      padding: 8px 14px;
-      z-index: 200;
-    }
-
-    .skip:focus {
-      left: 8px;
-    }
-
-    /* ─── Bar ─────────────────────────────────────── */
-    .bar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      height: var(--bar);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 var(--margin);
-      background: var(--paper);
-      border-bottom: 1px solid var(--ink);
-    }
-
-    .bar-name {
-      font-weight: 800;
-      font-size: 1rem;
-      letter-spacing: -.01em;
-      text-decoration: none;
-    }
-
-    .bar-links {
-      display: flex;
-      gap: clamp(16px, 2.2vw, 36px);
-      list-style: none;
-    }
-
-    .bar-links a {
-      font-size: .9rem;
-      font-weight: 500;
-      text-decoration: none;
-      padding: 4px 0;
-      border-bottom: 2px solid transparent;
-      transition: border-color .2s, color .2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .bar-links a:hover {
-      color: var(--blue);
-    }
-
-    .bar-links a.active {
-      color: var(--blue);
-      border-bottom-color: var(--blue);
-    }
-
-    .bar-toggle {
-      display: none;
-      background: none;
-      border: 0;
-      color: var(--ink);
-      font: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 8px 0 8px 8px;
-      margin-left: auto;
-    }
-
-    /* ─── Sheets: every section fills the screen ─── */
-    .sheet {
-      min-height: calc(100svh - var(--bar));
-      scroll-snap-align: start;
-      padding: var(--sheet-pad) var(--margin);
-      display: flex;
-      flex-direction: column;
-      border-bottom: 1px solid var(--ink);
-    }
-
-    .sheet.alt {
-      background: var(--paper-2);
-    }
-
-    .sheet-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 24px;
-      padding-bottom: clamp(20px, 2.5vw, 36px);
-    }
-
-    .sheet-head h2 {
-      font-size: var(--t-h2);
-      font-weight: 800;
-      letter-spacing: -.035em;
-      line-height: .95;
-    }
-
-    .sheet-head p {
-      color: var(--ink-2);
-      font-size: var(--t-small);
-    }
-
-    .sheet-foot {
-      margin-top: auto;
-      padding-top: 40px;
-    }
-
-    /* ─── Hero ────────────────────────────────────── */
-    .hero {
-      min-height: calc(100svh - var(--bar));
-      scroll-snap-align: start;
-      border-bottom: 1px solid var(--ink);
-      padding-right: var(--margin);
-    }
-
-    .hero-field {
-      grid-column: 1 / 9;
-      background: var(--blue);
-      color: #fff;
-      padding: clamp(24px, 3vw, 44px) var(--margin);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 48px;
-      animation: field-in 1.1s cubic-bezier(.16, 1, .3, 1) both;
-    }
-
-    @keyframes field-in {
-      from {
-        clip-path: inset(0 100% 0 0);
-      }
-
-      to {
-        clip-path: inset(0 0 0 0);
-      }
-    }
-
-    .hero-statement {
-      font-size: var(--t-lead);
-      font-weight: 500;
-      line-height: 1.35;
-      max-width: 30ch;
-      color: var(--blue-ink);
-    }
-
-    .hero-statement strong {
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .hero-name {
-      font-size: clamp(3rem, 7.5vw, 7rem);
-      font-weight: 800;
-      line-height: .86;
-      letter-spacing: -.04em;
-      margin-left: -.05em;
-    }
-
-    .hero-name span {
-      display: block;
-      animation: name-in 1s cubic-bezier(.16, 1, .3, 1) both;
-    }
-
-    .hero-name span+span {
-      animation-delay: .08s;
-    }
-
-    @keyframes name-in {
-      from {
-        transform: translateY(.3em);
-        opacity: 0;
-      }
-    }
-
-    .hero-side {
-      grid-column: 9 / 13;
-      padding: clamp(24px, 3vw, 44px) 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 40px;
-    }
-
-    .facts {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .fact {
-      border-top: 1px solid var(--ink);
-      padding: 12px 0 18px;
-    }
-
-    .fact dt {
-      font-size: var(--t-small);
-      color: var(--ink-2);
-      margin-bottom: 2px;
-    }
-
-    .fact dd {
-      font-weight: 600;
-      line-height: 1.35;
-    }
-
-    .fact.lead dd {
-      font-size: clamp(1.1rem, 1.4vw, 1.3rem);
-      font-weight: 800;
-      letter-spacing: -.02em;
-      color: var(--blue);
-    }
-
-    .actions {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: var(--ink);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: .95rem;
-      padding: 13px 18px;
-      transition: background .2s;
-    }
-
-    .btn:hover {
-      background: var(--blue);
-    }
-
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 22px;
-      list-style: none;
-    }
-
-    .links a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 600;
-      text-decoration: underline;
-      text-decoration-color: var(--rule);
-      transition: text-decoration-color .2s, color .2s;
-    }
-
-    .links a:hover {
-      color: var(--blue);
-      text-decoration-color: currentColor;
-    }
-
-    /* ─── Profile ─────────────────────────────────── */
-    .profile-lead {
-      grid-column: 1 / 10;
-      grid-row: 1;
-      font-size: clamp(1.35rem, 2.3vw, 2rem);
-      font-weight: 600;
-      line-height: 1.22;
-      letter-spacing: -.02em;
-      max-width: 34ch;
-      text-wrap: balance;
-    }
-
-    .profile-lead em {
-      font-style: normal;
-      color: var(--blue);
-    }
-
-    .profile-body {
-      grid-column: 1 / 9;
-      grid-row: 2;
-      margin-top: 32px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--gutter);
-      color: var(--ink-2);
-    }
-
-    .profile-photo {
-      grid-column: 10 / 13;
-      grid-row: 1 / 3;
-      align-self: start;
-      border: 1px solid var(--ink);
-    }
-
-    .profile-photo img {
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-    }
-
-    .profile-body strong,
-    .about-item p strong {
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .about-item {
-      grid-column: span 4;
-      border-top: 2px solid var(--ink);
-      padding-top: 16px;
-    }
-
-    .about-item h3 {
-      font-size: var(--t-h3);
-      font-weight: 800;
-      letter-spacing: -.025em;
-      margin-bottom: 8px;
-    }
-
-    .about-item p {
-      color: var(--ink-2);
-      max-width: 36ch;
-    }
-
-    /* ─── Experience ──────────────────────────────── */
-    .row {
-      border-top: 2px solid var(--ink);
-      padding: 18px 0 32px;
-    }
-
-    .row:last-child {
-      border-bottom: 1px solid var(--ink);
-    }
-
-    .row-when {
-      grid-column: 1 / 4;
-      font-size: var(--t-small);
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-
-    .row-when strong {
-      display: block;
-      color: var(--ink);
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .row-title {
-      grid-column: 4 / 8;
-    }
-
-    .row-title h3 {
-      font-size: var(--t-h3);
-      font-weight: 800;
-      letter-spacing: -.025em;
-      line-height: 1.08;
-      margin-bottom: 8px;
-    }
-
-    .row-title p {
-      color: var(--ink-2);
-    }
-
-    .row-body {
-      grid-column: 8 / 13;
-    }
-
-    .points {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .points li {
-      padding-left: 20px;
-      position: relative;
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-
-    .points li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: .72em;
-      width: 10px;
-      height: 2px;
-      background: var(--blue);
-    }
-
-    .points strong {
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .stack {
-      margin-top: 18px;
-      font-size: var(--t-small);
-      color: var(--ink-2);
-    }
-
-    .stack b {
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    /* ─── Skills ──────────────────────────────────── */
-    .skill-row {
-      border-top: 2px solid var(--ink);
-      padding: 16px 0 22px;
-    }
-
-    .skill-row:last-child {
-      border-bottom: 1px solid var(--ink);
-    }
-
-    .skill-row h3 {
-      grid-column: 1 / 4;
-      font-size: var(--t-h3);
-      font-weight: 800;
-      letter-spacing: -.02em;
-      line-height: 1.15;
-    }
-
-    .skill-row .items {
-      grid-column: 4 / 10;
-      font-size: clamp(1rem, 1.2vw, 1.12rem);
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-    .skill-row .items i {
-      font-style: normal;
-      color: #8a8983;
-    }
-
-    .skill-row .used {
-      grid-column: 10 / 13;
-      font-size: var(--t-small);
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-
-    .skill-row .used b {
-      display: block;
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    /* ─── Work index ──────────────────────────────── */
-    .index {
-      list-style: none;
-    }
-
-    .index li {
-      border-top: 2px solid var(--ink);
-    }
-
-    .index li:last-child {
-      border-bottom: 1px solid var(--ink);
-    }
-
-    .index a {
-      display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: var(--gutter);
-      align-items: baseline;
-      padding: 18px 0;
-      text-decoration: none;
-      transition: color .2s;
-    }
-
-    .index a:hover {
-      color: var(--blue);
-    }
-
-    .index .i-title {
-      grid-column: 1 / 7;
-      font-size: clamp(1.2rem, 1.8vw, 1.6rem);
-      font-weight: 800;
-      letter-spacing: -.025em;
-      line-height: 1.15;
-    }
-
-    .index .i-domain {
-      grid-column: 7 / 10;
-      color: var(--ink-2);
-    }
-
-    .index .i-meta {
-      grid-column: 10 / 13;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      color: var(--ink-2);
-      font-size: var(--t-small);
-    }
-
-    .index a:hover .i-domain,
-    .index a:hover .i-meta {
-      color: var(--blue);
-    }
-
-    .tag {
-      color: var(--blue);
-      font-weight: 700;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .status::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      background: var(--ink);
-    }
-
-    .status.active {
-      color: var(--blue);
-    }
-
-    .status.active::before {
-      background: var(--blue);
-      box-shadow: 0 0 0 3px rgba(31, 43, 115, .18);
-    }
-
-    .hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--ink-2);
-      font-size: var(--t-small);
-    }
-
-    /* ─── Project sheets ──────────────────────────── */
-    .project-head {
-      align-items: baseline;
-      padding-bottom: 20px;
-    }
-
-    .project-head h2 {
-      grid-column: 1 / 9;
-      font-size: clamp(1.5rem, 2.6vw, 2.3rem);
-      font-weight: 800;
-      letter-spacing: -.03em;
-      line-height: 1.02;
-      text-wrap: balance;
-    }
-
-    .project-meta {
-      grid-column: 9 / 13;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 6px 20px;
-      font-size: var(--t-small);
-      color: var(--ink-2);
-    }
-
-    .project-meta a,
-    .project-meta .private {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--ink);
-      font-weight: 700;
-    }
-
-    .project-meta a:hover {
-      color: var(--blue);
-    }
-
-    .project-body {
-      border-top: 2px solid var(--ink);
-      padding-top: 20px;
-      flex: 1;
-      align-items: start;
-    }
-
-    .project-media {
-      grid-column: 1 / 9;
-      aspect-ratio: 16 / 10;
-      max-height: calc(100svh - var(--bar) - 2 * var(--sheet-pad) - 110px);
-      width: 100%;
-      overflow: hidden;
-      background: #e6e5e0;
-    }
-
-    .project-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top left;
-      display: block;
-    }
-
-    .project-media.diagram {
-      background: var(--blue);
-    }
-
-    .project-media.diagram img {
-      object-fit: contain;
-      object-position: center;
-    }
-
-    .project-text {
-      grid-column: 9 / 13;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .project-text h3 {
-      font-size: var(--t-small);
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .project-text p {
-      color: var(--ink-2);
-    }
-
-    .project-text p strong {
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .project-text .stack {
-      border-top: 1px solid var(--rule);
-      padding-top: 12px;
-      margin-top: 0;
-    }
-
-    /* ─── Contact ─────────────────────────────────── */
-    .contact {
-      background: var(--blue);
-      color: #fff;
-      border-bottom: 0;
-      justify-content: space-between;
-      gap: 48px;
-    }
-
-    .contact h2 {
-      font-size: clamp(2.4rem, 5.5vw, 5rem);
-      font-weight: 800;
-      letter-spacing: -.04em;
-      line-height: .9;
-    }
-
-    .contact-grid {
-      row-gap: 36px;
-      align-items: end;
-    }
-
-    .contact-mail {
-      grid-column: 1 / 9;
-    }
-
-    .contact-mail p {
-      color: var(--blue-ink);
-      margin-bottom: 10px;
-      max-width: 42ch;
-    }
-
-    .contact-mail a {
-      font-size: clamp(1.15rem, 2.2vw, 1.8rem);
-      font-weight: 700;
-      letter-spacing: -.02em;
-      text-decoration-thickness: 3px;
-      text-underline-offset: .15em;
-      overflow-wrap: anywhere;
-    }
-
-    .contact-mail a:hover {
-      text-decoration-color: var(--blue-ink);
-    }
-
-    .contact-links {
-      grid-column: 9 / 13;
-      list-style: none;
-    }
-
-    .contact-links li {
-      border-top: 1px solid rgba(255, 255, 255, .55);
-    }
-
-    .contact-links li:last-child {
-      border-bottom: 1px solid rgba(255, 255, 255, .55);
-    }
-
-    .contact-links a {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 11px 0;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .contact-links a:hover {
-      color: var(--blue-ink);
-    }
-
-    .contact footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      font-size: var(--t-small);
-      color: var(--blue-ink);
-      border-top: 1px solid rgba(255, 255, 255, .3);
-      padding-top: 20px;
-    }
-
-    /* ─── Motion preferences ──────────────────────── */
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      *,
-      *::before,
-      *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-
-    /* ─── Responsive ──────────────────────────────── */
-    @media (max-width: 1080px) {
-      .hero-field {
-        grid-column: 1 / 8;
-      }
-
-      .hero-side {
-        grid-column: 8 / 13;
-      }
-
-      .row-when {
-        grid-column: 1 / 13;
-        margin-bottom: 10px;
-      }
-
-      .row-when strong {
-        display: inline;
-        margin-right: 10px;
-      }
-
-      .row-title {
-        grid-column: 1 / 6;
-      }
-
-      .row-body {
-        grid-column: 6 / 13;
-      }
-
-      .profile-lead,
-      .profile-body {
-        grid-column: 1 / 9;
-      }
-
-      .profile-photo {
-        grid-column: 9 / 13;
-      }
-
-      .project-media,
-      .project-head h2 {
-        grid-column: 1 / 13;
-      }
-
-      .project-meta {
-        grid-column: 1 / 13;
-        justify-content: flex-start;
-        margin-top: 10px;
-      }
-
-      .project-text {
-        grid-column: 1 / 13;
-        margin-top: 20px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .project-text .stack {
-        grid-column: 1 / -1;
-      }
-
-      .project-media {
-        max-height: none;
-      }
-    }
-
-    @media (max-width: 820px) {
-      html {
-        scroll-snap-type: none;
-      }
-
-      .sheet,
-      .hero {
-        min-height: 0;
-      }
-
-      .bar-toggle {
-        display: block;
-      }
-
-      .bar-links {
-        display: none;
-        position: absolute;
-        top: var(--bar);
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        gap: 0;
-        background: var(--paper);
-        border-bottom: 1px solid var(--ink);
-        padding: 4px var(--margin) 12px;
-      }
-
-      .bar-links.open {
-        display: flex;
-      }
-
-      .bar-links li+li {
-        border-top: 1px solid var(--rule);
-      }
-
-      .bar-links a {
-        display: flex;
-        padding: 14px 0;
-        font-size: 1.1rem;
-        border-bottom: 0;
-      }
-
-      .bar-links a.active {
-        border-bottom: 0;
-      }
-
-      .hero {
-        padding: 0 0 28px;
-      }
-
-      .hero-field {
-        grid-column: 1 / 13;
-        min-height: 56svh;
-      }
-
-      .hero-side {
-        grid-column: 1 / 13;
-        padding: 28px var(--margin) 0;
-      }
-
-      .row-title,
-      .row-body,
-      .skill-row h3,
-      .skill-row .items,
-      .skill-row .used,
-      .contact-mail,
-      .contact-links,
-      .about-item {
-        grid-column: 1 / 13;
-      }
-
-      .row-title,
-      .skill-row h3 {
-        margin-bottom: 12px;
-      }
-
-      .skill-row .used {
-        margin-top: 10px;
-      }
-
-      .profile-body,
-      .project-text {
-        grid-template-columns: 1fr;
-      }
-
-      .profile-lead,
-      .profile-body {
-        grid-column: 1 / 13;
-        grid-row: auto;
-      }
-
-      .profile-photo {
-        grid-column: 1 / 13;
-        grid-row: auto;
-        width: min(220px, 60%);
-        margin-bottom: 28px;
-      }
-
-      .about-item {
-        margin-bottom: 28px;
-      }
-
-      .sheet-head {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .index .i-title,
-      .index .i-domain,
-      .index .i-meta {
-        grid-column: 1 / 13;
-      }
-
-      .index .i-domain {
-        margin-top: 4px;
-      }
-
-      .index .i-meta {
-        margin-top: 6px;
-        justify-content: flex-start;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/site.css">
+  <script src="js/site.js" defer></script>
 </head>
 
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="bar">
-    <a class="bar-name" href="#top">Benarbia Emir</a>
-    <button class="bar-toggle" type="button" aria-expanded="false" aria-controls="bar-links">Menu</button>
-    <nav aria-label="Sections">
-      <ul class="bar-links" id="bar-links">
-        <li><a href="#profile">Profile</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#work">Work</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="assets/projects/cv-benarbia-emir.pdf" target="_blank" rel="noopener">CV
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a></li>
-      </ul>
-    </nav>
+    <div class="wrap">
+      <a class="bar-name" href="#top" aria-label="Benarbia Emir, back to top">
+        <span class="full">Benarbia Emir</span><span class="short" aria-hidden="true">BE</span>
+      </a>
+      <nav aria-label="Sections">
+        <ul class="bar-links" id="bar-links">
+          <li><a href="#work">Work</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="assets/projects/cv-benarbia-emir.pdf" target="_blank" rel="noopener">CV
+              <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <main id="main">
 
     <!-- Hero -->
-    <section class="hero grid" id="top" aria-labelledby="name">
-      <div class="hero-field on-blue">
-        <p class="hero-statement">
-          <strong>AI &amp; data engineer.</strong> I build LLM systems that run in production: RAG, agents, and
-          vision-language models, on solid data-engineering foundations.
-        </p>
-        <h1 class="hero-name" id="name"><span>Benarbia</span><span>Emir</span></h1>
-      </div>
+    <section class="hero on-plate" id="top" aria-labelledby="name">
+      <div class="wrap">
+        <div class="hero-top grid">
+          <div class="hero-intro">
+            <h1 class="hero-name" id="name">Benarbia Emir</h1>
+            <p class="hero-statement">
+              <strong>AI &amp; data engineer.</strong> I build LLM systems that run in production: RAG, agents, and
+              vision-language models, on solid data-engineering foundations.
+            </p>
+          </div>
 
-      <div class="hero-side">
-        <dl class="facts">
-          <div class="fact lead">
-            <dt>Looking for</dt>
-            <dd>6-month PFE internship, January – July 2027</dd>
-          </div>
-          <div class="fact">
-            <dt>Based in</dt>
-            <dd>Tunisia · open to relocation</dd>
-          </div>
-          <div class="fact">
-            <dt>Studying</dt>
-            <dd>Data &amp; Software Engineering, University of Carthage. Ranked 5th of 36</dd>
-          </div>
-          <div class="fact">
-            <dt>Works in</dt>
-            <dd>English, French, Arabic</dd>
-          </div>
-        </dl>
+          <div class="hero-side">
+            <dl class="facts">
+              <div class="fact">
+                <dt>Looking for</dt>
+                <dd>6-month PFE internship, January – July 2027</dd>
+              </div>
+              <div class="fact">
+                <dt>Based in</dt>
+                <dd>Tunisia, open to relocation</dd>
+              </div>
+              <div class="fact">
+                <dt>Studying</dt>
+                <dd>Data &amp; Software Engineering, University of Carthage. Ranked 5th of 36</dd>
+              </div>
+              <div class="fact">
+                <dt>Works in</dt>
+                <dd>English, French, Arabic</dd>
+              </div>
+            </dl>
 
-        <div class="actions">
-          <a class="btn" href="assets/projects/cv-benarbia-emir.pdf" download="cv-benarbia-emir.pdf">
-            Download CV
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><path d="M6 1v9M2 6.5 6 10.5l4-4" /></svg>
-          </a>
-          <ul class="links">
-            <li><a href="mailto:benarbiaemir@gmail.com">Email</a></li>
-            <li><a href="https://github.com/Benarbiaa" target="_blank" rel="noopener">GitHub <svg class="arrow"
-                  viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                  <use href="#i-out" />
-                </svg></a></li>
-            <li><a href="https://www.linkedin.com/in/emir-benarbia" target="_blank" rel="noopener">LinkedIn <svg
-                  class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-                  aria-hidden="true">
-                  <use href="#i-out" />
-                </svg></a></li>
+            <div class="actions">
+              <a class="btn" href="assets/projects/cv-benarbia-emir.pdf" download="cv-benarbia-emir.pdf">
+                Download CV
+                <svg class="glyph down" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-down" /></svg>
+              </a>
+              <ul class="links">
+                <li><a href="mailto:benarbiaemir@gmail.com">Email</a></li>
+                <li><a href="https://github.com/Benarbiaa" target="_blank" rel="noopener">GitHub
+                    <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a></li>
+                <li><a href="https://www.linkedin.com/in/emir-benarbia" target="_blank" rel="noopener">LinkedIn
+                    <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- System map: stages across, projects down -->
+        <div class="map" aria-labelledby="map-note">
+          <div class="map-head">
+            <p class="map-note" id="map-note">Eight projects, each drawn across the stages of a system it covers.
+              Select one to read it.</p>
+            <ol class="stages">
+            <li class="stage" data-stage="ingest"><b>Data</b><span>Kafka streams, ETL, sensors</span></li>
+            <li class="stage" data-stage="store"><b>Store</b><span>PostgreSQL, pgvector, star schema</span></li>
+            <li class="stage" data-stage="model"><b>Model</b><span>RAG, fine-tuning, vision, forecasting</span></li>
+            <li class="stage" data-stage="verify"><b>Verify</b><span>claim checks, evaluation, end-to-end tests</span></li>
+            <li class="stage" data-stage="serve"><b>Serve</b><span>FastAPI, Django, dashboards</span></li>
+            </ol>
+          </div>
+
+          <ul class="tracks">
+            <li style="--r:0"><a class="track" href="#p-rag" data-stages="ingest store model verify serve">
+                <span class="track-name">Claim-Verify RAG</span>
+                <span class="track-cells" aria-hidden="true"><i class="s"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="e"></i></span>
+                <span class="sr-only">covers data, store, model, verify and serve</span></a></li>
+            <li style="--r:1"><a class="track" href="#p-qlora" data-stages="ingest model verify serve">
+                <span class="track-name">Recruitment Email → JSON</span>
+                <span class="track-cells" aria-hidden="true"><i class="s"></i><i class="t"></i><i class="m"></i><i class="m"></i><i class="e"></i></span>
+                <span class="sr-only">covers data, model, verify and serve</span></a></li>
+            <li style="--r:2"><a class="track" href="#p-mahara" data-stages="store model verify serve">
+                <span class="track-name">Mahara Match</span>
+                <span class="track-cells" aria-hidden="true"><i></i><i class="s"></i><i class="m"></i><i class="m"></i><i class="e"></i></span>
+                <span class="sr-only">covers store, model, verify and serve</span></a></li>
+            <li style="--r:3"><a class="track" href="#p-fuel" data-stages="ingest store model serve">
+                <span class="track-name">Fuel Station Monitoring</span>
+                <span class="track-cells" aria-hidden="true"><i class="s"></i><i class="m"></i><i class="m"></i><i class="t"></i><i class="e"></i></span>
+                <span class="sr-only">covers data, store, model and serve</span></a></li>
+            <li style="--r:4"><a class="track" href="#p-bi" data-stages="ingest store serve">
+                <span class="track-name">Education Intelligence Platform</span>
+                <span class="track-cells" aria-hidden="true"><i class="s"></i><i class="m"></i><i class="t"></i><i class="t"></i><i class="e"></i></span>
+                <span class="sr-only">covers data, store and serve</span></a></li>
+            <li style="--r:5"><a class="track" href="#p-ocr" data-stages="ingest model serve">
+                <span class="track-name">OCR Invoice Parsing API</span>
+                <span class="track-cells" aria-hidden="true"><i class="s"></i><i class="t"></i><i class="m"></i><i class="t"></i><i class="e"></i></span>
+                <span class="sr-only">covers data, model and serve</span></a></li>
+            <li style="--r:6"><a class="track" href="#p-blind" data-stages="ingest store model serve">
+                <span class="track-name">Blind Assistance IoT System</span>
+                <span class="track-cells" aria-hidden="true"><i class="s"></i><i class="m"></i><i class="m"></i><i class="t"></i><i class="e"></i></span>
+                <span class="sr-only">covers data, store, model and serve</span></a></li>
+            <li style="--r:7"><a class="track" href="#p-mapreduce" data-stages="ingest">
+                <span class="track-name">Thread-Based MapReduce</span>
+                <span class="track-cells" aria-hidden="true"><i class="o"></i><i></i><i></i><i></i><i></i></span>
+                <span class="sr-only">covers data</span></a></li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- Profile -->
-    <section class="sheet" id="profile" aria-labelledby="profile-h">
-      <div class="sheet-head">
-        <h2 id="profile-h">Profile</h2>
-      </div>
-      <div class="grid">
-        <figure class="profile-photo">
-          <img src="assets/headshot.jpg" alt="Portrait of Benarbia Emir" width="720" height="900" loading="lazy">
-        </figure>
-        <p class="profile-lead">
-          Final-year engineering student who likes understanding systems end to end. Lately, that means making
-          <em>large language models</em> do real work inside them.
-        </p>
-        <div class="profile-body">
-          <p>
-            I study Data &amp; Software Engineering at the <strong>Faculty of Sciences of Bizerte (University of
-              Carthage)</strong>, where I'm ranked 5th of 36 in my program. My work spans data pipelines, backend
-            APIs, event streaming, and applied ML.
-          </p>
-          <p>
-            I'm leaning hard into <strong>LLM agents, RAG, and vision-language models</strong>, and I'm looking for a
-            6-month final-year internship (PFE), January–July 2027, to build intelligent, data-driven systems with a
-            team that ships.
-          </p>
+    <!-- Work -->
+    <section class="section" id="work" aria-labelledby="work-h">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="work-h">Work</h2>
+          <p>Eight projects across AI, data, and systems</p>
         </div>
-      </div>
 
-      <div class="sheet-foot grid">
-        <div class="about-item">
-          <h3>Education</h3>
-          <p><strong>National Engineering Degree, Data &amp; Software Engineering</strong>, Faculty of Sciences of
-            Bizerte, University of Carthage, 2023–2027. Ranked 5th of 36.</p>
-        </div>
-        <div class="about-item">
-          <h3>Languages</h3>
-          <p>Fluent in <strong>English</strong> and <strong>French</strong> (my language of instruction), native
-            <strong>Arabic</strong>.</p>
-        </div>
-        <div class="about-item">
-          <h3>Leadership</h3>
-          <p><strong>Technical lead</strong> on Mahara Match. <strong>Vice President</strong>,
-            Interact Club North Africa, leading 15+ members.</p>
+        <!-- Case study -->
+        <article class="project case" id="p-rag" aria-labelledby="p-rag-h">
+          <div class="project-head">
+            <h3 id="p-rag-h">Claim-Verify RAG</h3>
+            <div class="meta">
+              <span class="status">Completed, Oct 2026</span>
+              <span class="role">Solo project</span>
+              <a href="https://github.com/Benarbiaa/claim-verify-rag" target="_blank" rel="noopener">Source
+                <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a>
+            </div>
+          </div>
+          <figure class="plate">
+            <img src="assets/projects/rag.webp" width="1600" height="1000" loading="lazy" decoding="async"
+              alt="Architecture: a four-source corpus is cleaned, chunked, embedded locally and stored in pgvector; hybrid retrieval with a reranker feeds a cited draft, which is split into atomic claims, each re-verified across all sources by a separate judge model, producing a claims-by-sources verdict plate. Results: the proof reaches the judge for 37 of 44 claims, up from 23, and verdicts are correct on 9 of 10 gold claims">
+            <button class="plate-open" type="button" data-title="Claim-Verify RAG">Enlarge diagram</button>
+          </figure>
+          <div class="case-body grid">
+            <div class="block">
+              <h4>What it does</h4>
+              <p>A RAG system that <strong>does not trust its own answer</strong>. It drafts a cited answer, splits it
+                into atomic claims, and re-checks each claim independently against every source. Each claim gets a
+                verdict with the passages it was judged on: supported, contradicted, unverifiable, or
+                <strong>contested</strong> when the sources disagree with each other.</p>
+            </div>
+            <div class="block">
+              <h4>How it's built</h4>
+              <p>PostgreSQL + pgvector with local bge embeddings, hybrid search (meaning + BM25) with a cross-encoder
+                reranker, per-document retrieval so every source is heard, and a LangGraph verification loop whose
+                judge is a different model family from the drafter. Every stage is swappable from one config file, and
+                a FastAPI + React UI replays recorded runs and streams live ones.</p>
+            </div>
+            <div class="block results">
+              <h4>Results</h4>
+              <dl class="figures">
+                <div>
+                  <dt>37/44</dt>
+                  <dd>claims whose proof reaches the judge, up from 23/44</dd>
+                </div>
+                <div>
+                  <dt>9/10</dt>
+                  <dd>verdicts correct on a hand-checked gold set, with no false contradiction</dd>
+                </div>
+              </dl>
+              <p>Every change was measured against a rule fixed in advance. The gain in retrieval came from hybrid
+                search and the reranker.</p>
+            </div>
+            <p class="stack">Python, LangGraph, PostgreSQL, pgvector, bge embeddings, BM25, cross-encoder reranker,
+              Groq, Pydantic, FastAPI, React, TypeScript</p>
+          </div>
+        </article>
+
+        <!-- Case study -->
+        <article class="project case" id="p-qlora" aria-labelledby="p-qlora-h">
+          <div class="project-head">
+            <h3 id="p-qlora-h">Recruitment Email → JSON</h3>
+            <div class="meta">
+              <span class="status">Completed, Oct 2026</span>
+              <span class="role">Solo project</span>
+              <a href="https://github.com/Benarbiaa/email-extraction-qlora" target="_blank" rel="noopener">Source
+                <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a>
+              <a href="https://huggingface.co/BenarbiaEmir/qwen3-4b-recruitment-email-json-qlora" target="_blank"
+                rel="noopener">Model
+                <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a>
+            </div>
+          </div>
+          <figure class="plate">
+            <img src="assets/projects/qlora.webp" width="1600" height="1000" loading="lazy" decoding="async"
+              alt="Pipeline: sampled specs, emails written by one generator model and blindly relabeled by another, schema and leakage checks, then QLoRA fine-tuning of Qwen3-4B on a T4 into schema-validated JSON. Example: a French test request resolves 'avant vendredi' to 2026-11-06. Results: exact match 19.5% zero-shot, 22.5% few-shot, 83.5% fine-tuned; 80% on emails from the other generator">
+            <button class="plate-open" type="button" data-title="Recruitment Email → JSON">Enlarge diagram</button>
+          </figure>
+          <div class="case-body grid">
+            <div class="block">
+              <h4>What it does</h4>
+              <p>Fine-tunes <strong>Qwen3-4B with QLoRA</strong> to turn French, English or mixed recruitment emails
+                into a 10-field JSON record validated against a schema: email type, company, contract, interview
+                stage, sender role, and the deadline, resolved from the Date header (<em>avant vendredi</em> becomes a
+                date).</p>
+            </div>
+            <div class="block">
+              <h4>How it's built</h4>
+              <p>A <strong>synthetic data pipeline</strong>: specs sampled in Python, emails written by one generator
+                model and blindly relabeled by another (92% full-record agreement), and an n-gram leakage check
+                between train and test. Trained on one free Colab T4 (4-bit base, LoRA r16), checkpoint chosen on
+                validation loss, adapter published on Hugging Face with a Gradio demo.</p>
+            </div>
+            <div class="block results">
+              <h4>Results</h4>
+              <dl class="figures">
+                <div>
+                  <dt>83.5%</dt>
+                  <dd>full-record exact match on 200 synthetic test emails, up from 22.5% few-shot (95% CI 78–88.5%)</dd>
+                </div>
+                <div>
+                  <dt>80%</dt>
+                  <dd>on emails written by a different model than the training data</dd>
+                </div>
+              </dl>
+              <p>Labels are not hand-reviewed yet; the README documents what failed.</p>
+            </div>
+            <p class="stack">Python, PyTorch, Transformers, PEFT, TRL, bitsandbytes, Qwen3, JSON Schema, Gradio,
+              Hugging Face Hub</p>
+          </div>
+        </article>
+
+        <!-- System with a team role -->
+        <article class="project" id="p-mahara" aria-labelledby="p-mahara-h">
+          <div class="project-head">
+            <h3 id="p-mahara-h">Mahara Match</h3>
+            <div class="meta">
+              <span class="status live">In progress</span>
+              <span class="role">Technical lead</span>
+              <span class="private">
+                <svg class="glyph" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-lock" /></svg>
+                Private repo</span>
+            </div>
+          </div>
+          <div class="split grid">
+            <figure class="plate">
+              <img src="assets/projects/mahara.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                alt="Architecture: a six-step flow from CV upload to dashboard across four services that exchange data only through OpenAPI contracts, held together by CI, an end-to-end test and decision records">
+              <button class="plate-open" type="button" data-title="Mahara Match">Enlarge diagram</button>
+            </figure>
+            <div class="split-text">
+              <div class="block">
+                <h4>What it is</h4>
+                <p>An AI platform that matches job seekers, employers, training providers and public institutions
+                  through one shared skill vocabulary. A CV becomes a structured profile, is matched to jobs with an
+                  explanation, and missing skills turn into course recommendations.</p>
+              </div>
+              <div class="block mine">
+                <h4>My role</h4>
+                <p>Technical lead. I designed the <strong>contract-first architecture</strong>: OpenAPI contracts with
+                  a mock server each, so teams build in parallel. I set up CI, the end-to-end test of the whole flow
+                  and the decision records, and I run the platform team: login and roles, and a 208-skill taxonomy
+                  with Arabic labels.</p>
+              </div>
+              <p class="stack">Python, FastAPI, PostgreSQL, OpenAPI, Docker Compose, React, TypeScript, Playwright,
+                GitHub Actions</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- System with a team role -->
+        <article class="project" id="p-fuel" aria-labelledby="p-fuel-h">
+          <div class="project-head">
+            <h3 id="p-fuel-h">Fuel Station Monitoring System</h3>
+            <div class="meta">
+              <span class="status live">Active, improving</span>
+              <span class="role">Team of 3, extended solo</span>
+              <a href="https://github.com/Benarbiaa/Fuel-Monitoring-System" target="_blank" rel="noopener">Source
+                <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a>
+            </div>
+          </div>
+          <div class="split grid">
+            <figure class="plate">
+              <img src="assets/projects/fuel.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                alt="Architecture: station readings flow through a Kafka topic to an idempotent consumer and PostgreSQL; an LLM agent acts on critical alerts; FastAPI, a Groq chat assistant and an Angular dashboard serve the data">
+              <button class="plate-open" type="button" data-title="Fuel Station Monitoring System">Enlarge
+                diagram</button>
+            </figure>
+            <div class="split-text">
+              <div class="block">
+                <h4>What it does</h4>
+                <p>Monitoring and forecasting platform for AGIL fuel stations. Station telemetry streams through
+                  <strong>Kafka</strong> (keyed per tank, idempotent consumer, dead-letter topic) into PostgreSQL.
+                  Critical alerts wake an <strong>autonomous LLM agent</strong> that reorders, notifies a manager, or
+                  escalates, with every decision logged. Prophet forecasts stock, and a Groq-powered assistant answers
+                  questions using tool calls and RAG over past reports.</p>
+              </div>
+              <div class="block mine">
+                <h4>My part</h4>
+                <p>Built the FastAPI backend and the Prophet forecasting model, Dockerized the stack, then migrated
+                  ingestion to Kafka on my own, documented in an architecture decision record and a debugging
+                  write-up.</p>
+              </div>
+              <p class="stack">Python, FastAPI, Kafka, PostgreSQL, Prophet, Groq, ChromaDB, Angular 16, Docker</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Ledger -->
+        <div class="ledger">
+          <p class="ledger-head">Four more, opened in place</p>
+
+          <details class="entry" id="p-bi">
+            <summary>
+              <h3>Global Education Intelligence Platform</h3>
+              <span class="entry-domain">ETL, star-schema warehouse, BI</span>
+              <span class="entry-meta"><span class="status">Completed, Feb 2026</span><span class="toggle"
+                  aria-hidden="true"></span></span>
+            </summary>
+            <div class="entry-body">
+              <div class="meta">
+                <a href="https://github.com/Benarbiaa/Global-Education-Intelligence-Platform-Multi-source-Data-Integration-BI"
+                  target="_blank" rel="noopener">Source
+                  <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a>
+              </div>
+              <div class="split grid">
+                <figure class="plate">
+                  <img src="assets/projects/bi.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                    alt="Architecture: open-data APIs and CSVs feed five dependency-ordered ETL stages into a PostgreSQL star schema, served by a Django REST API to React and Streamlit">
+                  <button class="plate-open" type="button" data-title="Global Education Intelligence Platform">Enlarge
+                    diagram</button>
+                </figure>
+                <div class="split-text">
+                  <div class="block">
+                    <h4>What it does</h4>
+                    <p>Consolidates education, research, and public-spending data from many countries into one
+                      <strong>PostgreSQL star-schema warehouse</strong>. Five dependency-ordered ETL stages load
+                      shared dimensions first, then the research, education, enrollment, and expenditure marts.</p>
+                  </div>
+                  <div class="block">
+                    <h4>How it runs</h4>
+                    <p>A <strong>nightly GitHub Actions job</strong> rebuilds the warehouse and emails a run report. A
+                      Django REST API serves KPIs (graduation rates, student/staff ratios, university rankings,
+                      spending) to a React frontend and Streamlit dashboards.</p>
+                  </div>
+                  <p class="stack">Python, PostgreSQL, Django, React, TypeScript, Streamlit, Docker, GitHub Actions</p>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details class="entry" id="p-ocr">
+            <summary>
+              <h3>OCR Invoice Parsing API</h3>
+              <span class="entry-domain">Document AI, YOLOv5, Tesseract</span>
+              <span class="entry-meta"><span class="status">Completed, Jan 2026</span><span class="role">Duo project</span><span
+                  class="toggle" aria-hidden="true"></span></span>
+            </summary>
+            <div class="entry-body">
+              <div class="meta">
+                <a href="https://github.com/Benarbiaa/OCR" target="_blank" rel="noopener">Source
+                  <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a>
+              </div>
+              <div class="split grid">
+                <figure class="plate">
+                  <img src="assets/projects/ocr.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                    alt="Pipeline: YOLOv5 detects supplier, date, table and total regions on an invoice, Tesseract and a regex parser turn them into JSON; training on FATURA annotations">
+                  <button class="plate-open" type="button" data-title="OCR Invoice Parsing API">Enlarge
+                    diagram</button>
+                </figure>
+                <div class="split-text">
+                  <div class="block">
+                    <h4>What it does</h4>
+                    <p>A FastAPI service that turns invoice images into structured JSON. A <strong>custom-trained
+                        YOLOv5</strong> model locates the supplier, date, total, and item-table regions; Tesseract
+                      reads each crop, and regex parsing maps French fields such as SIREN/SIRET and addresses. An
+                      optional Donut model does end-to-end parsing.</p>
+                  </div>
+                  <div class="block">
+                    <h4>Details</h4>
+                    <p>Training labels converted from the FATURA invoice dataset (PDF coordinates to YOLO format),
+                      automatic dark-image inversion before OCR, and a single Docker image for deployment.</p>
+                  </div>
+                  <p class="stack">Python, FastAPI, YOLOv5, Tesseract, Donut, PyTorch, OpenCV, Docker</p>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details class="entry" id="p-blind">
+            <summary>
+              <h3>Blind Assistance IoT System</h3>
+              <span class="entry-domain">Computer vision, IoT, depth estimation</span>
+              <span class="entry-meta"><span class="status">Completed, Nov 2025</span><span class="role">Team of 3</span><span
+                  class="toggle" aria-hidden="true"></span></span>
+            </summary>
+            <div class="entry-body">
+              <div class="meta">
+                <a href="https://github.com/saifallah1234/Blind-Assistance" target="_blank" rel="noopener">Team repo
+                  <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a>
+              </div>
+              <div class="split grid">
+                <figure class="plate">
+                  <img src="assets/projects/blind.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                    alt="Architecture: ESP32 sensors and a Raspberry Pi camera post to a Flask API backed by PostgreSQL and MongoDB; an Apple DepthPro pipeline adds per-object distances shown on a Streamlit dashboard">
+                  <button class="plate-open" type="button" data-title="Blind Assistance IoT System">Enlarge
+                    diagram</button>
+                </figure>
+                <div class="split-text">
+                  <div class="block">
+                    <h4>What it does</h4>
+                    <p>Wearable assistive system for the visually impaired. An ESP32 reads ultrasonic and PIR sensors
+                      for real-time haptic alerts, while a Raspberry Pi runs <strong>YOLO object detection and Apple
+                        DepthPro</strong> to estimate metric distances, all streamed to a live Streamlit dashboard.</p>
+                  </div>
+                  <div class="block mine">
+                    <h4>My part</h4>
+                    <p>Built the depth pipeline: it pulls each frame and its YOLO detections from the API, runs Apple
+                      DepthPro for monocular metric depth, and posts per-object distances back for the dashboard.</p>
+                  </div>
+                  <p class="stack">Python, Flask, YOLO, DepthPro, PyTorch, ESP32, PostgreSQL, MongoDB</p>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details class="entry" id="p-mapreduce">
+            <summary>
+              <h3>Thread-Based MapReduce System</h3>
+              <span class="entry-domain">Concurrency in Go</span>
+              <span class="entry-meta"><span class="status">Completed</span><span class="toggle"
+                  aria-hidden="true"></span></span>
+            </summary>
+            <div class="entry-body">
+              <div class="meta">
+                <span class="private">
+                  <svg class="glyph" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-lock" /></svg>
+                  Unavailable</span>
+              </div>
+              <div class="split grid">
+                <figure class="plate">
+                  <img src="assets/projects/mapreduce.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                    alt="Architecture: input splits flow through a task channel to a pool of map goroutines, are shuffled by key hash to reducers, and merged">
+                  <button class="plate-open" type="button" data-title="Thread-Based MapReduce System">Enlarge
+                    diagram</button>
+                </figure>
+                <div class="split-text">
+                  <div class="block">
+                    <h4>What it does</h4>
+                    <p>A concurrent MapReduce framework built from scratch in Go. A <strong>thread-safe worker
+                        pool</strong> pulls tasks from a channel, so work balances itself across goroutines;
+                      intermediate results are partitioned by key before the reduce phase.</p>
+                  </div>
+                  <div class="block">
+                    <h4>Result</h4>
+                    <p>Benchmarked against single-threaded execution on large processing workloads, with a clear
+                      speedup.</p>
+                  </div>
+                  <p class="stack">Go, goroutines, channels, concurrency</p>
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
       </div>
     </section>
 
     <!-- Experience -->
-    <section class="sheet alt" id="experience" aria-labelledby="experience-h">
-      <div class="sheet-head">
-        <h2 id="experience-h">Experience</h2>
-        <p>Two internships, both shipping full-stack platforms</p>
-      </div>
+    <section class="section tint" id="experience" aria-labelledby="experience-h">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="experience-h">Experience</h2>
+          <p>Two internships, both shipping full-stack platforms</p>
+        </div>
 
-      <div>
-        <article class="row grid">
-          <p class="row-when"><strong>Jun – Aug 2026</strong>Tunis, Tunisia</p>
-          <div class="row-title">
+        <article class="job grid">
+          <p class="job-when"><strong>Jun – Aug 2026</strong>Tunis, Tunisia</p>
+          <div class="job-title">
             <h3>Data &amp; Software Engineering Intern</h3>
             <p>TcodeX</p>
           </div>
-          <div class="row-body">
+          <div class="job-body">
             <ul class="points">
               <li>Engineered <strong>MediDocs</strong>, a full-stack clinical document extraction platform: a Django +
                 PostgreSQL backend orchestrates a vision-language model to turn scanned lab reports, prescriptions, and
                 radiology reports into structured JSON.</li>
               <li>Benchmarked local and API-hosted vision-language models (including Nemotron-3-Nano-Omni-30B via
                 OpenRouter) on Kaggle before deploying the best-performing OCR pipeline to production.</li>
-              <li>Built an automated extraction-quality score (TF-IDF/cosine similarity + edit distance) to quantify how
-                much human reviewers had to correct.</li>
+              <li>Built an automated extraction-quality score (TF-IDF/cosine similarity + edit distance) to quantify
+                how much human reviewers had to correct.</li>
               <li>Designed schema-agnostic React components for dynamic form rendering, plus patient management,
                 searchable history, PDF export, and session-based auth with CSRF protection.</li>
             </ul>
-            <p class="stack"><b>Stack:</b> Django, PostgreSQL, React, Vite, vision-language models, scikit-learn,
-              ReportLab</p>
+            <p class="stack">Django, PostgreSQL, React, Vite, vision-language models, scikit-learn, ReportLab</p>
           </div>
         </article>
 
-        <article class="row grid">
-          <p class="row-when"><strong>Jun – Aug 2025</strong>Tunis, Tunisia</p>
-          <div class="row-title">
+        <article class="job grid">
+          <p class="job-when"><strong>Jun – Aug 2025</strong>Tunis, Tunisia</p>
+          <div class="job-title">
             <h3>Software Engineering Intern</h3>
             <p>Générale Tunisienne de l'Informatique (GTI)</p>
           </div>
-          <div class="row-body">
+          <div class="job-body">
             <ul class="points">
               <li>Built a full-stack credit request management platform serving 3 user roles across 2 client types,
                 <strong>cutting application processing time by 40%</strong>.</li>
-              <li>Designed RESTful APIs covering the end-to-end credit lifecycle (submission, validation, approval) with
-                JUnit test coverage, replacing manual workflows.</li>
+              <li>Designed RESTful APIs covering the end-to-end credit lifecycle (submission, validation, approval)
+                with JUnit test coverage, replacing manual workflows.</li>
               <li>Built a responsive Angular frontend with dynamic forms, real-time status tracking, and role-based
                 access control (RBAC).</li>
               <li>Deployed a local conversational assistant (Ollama) to guide users through credit applications,
                 reducing support-ticket volume.</li>
             </ul>
-            <p class="stack"><b>Stack:</b> Angular, Spring Boot, PostgreSQL, JUnit, Ollama</p>
+            <p class="stack">Angular, Spring Boot, PostgreSQL, JUnit, Ollama</p>
           </div>
         </article>
       </div>
     </section>
 
-    <!-- Skills -->
-    <section class="sheet" id="skills" aria-labelledby="skills-h">
-      <div class="sheet-head">
-        <h2 id="skills-h">Skills</h2>
-        <p>Each one used in an internship or project on this page</p>
-      </div>
+    <!-- About -->
+    <section class="section" id="about" aria-labelledby="about-h">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="about-h">About</h2>
+        </div>
 
-      <div>
-        <div class="skill-row grid">
-          <h3>AI &amp; ML</h3>
-          <p class="items">LLM agents <i aria-hidden="true">/</i> RAG <i aria-hidden="true">/</i> LangGraph <i aria-hidden="true">/</i> Tool calling <i aria-hidden="true">/</i> Fine-tuning (QLoRA / PEFT) <i aria-hidden="true">/</i> Hugging Face <i aria-hidden="true">/</i> Vision-language models <i aria-hidden="true">/</i> NLP <i aria-hidden="true">/</i> ChromaDB <i aria-hidden="true">/</i> Groq <i aria-hidden="true">/</i> Ollama <i aria-hidden="true">/</i> PyTorch <i aria-hidden="true">/</i> Scikit-learn <i aria-hidden="true">/</i> YOLO <i aria-hidden="true">/</i> OpenCV <i aria-hidden="true">/</i> Prophet</p>
-          <p class="used"><b>Used in</b>Claim-Verify RAG, Email → JSON, MediDocs, Fuel Monitoring, OCR API, Blind Assistance</p>
+        <div class="about grid">
+          <p class="about-lead">
+            Final-year engineering student who likes understanding systems end to end. Lately, that means making large
+            language models do real work inside them.
+          </p>
+          <figure class="about-photo">
+            <img src="assets/headshot.webp" alt="Portrait of Benarbia Emir" width="720" height="900" loading="lazy"
+              decoding="async">
+          </figure>
+          <div class="about-body">
+            <p>
+              I study Data &amp; Software Engineering at the <strong>Faculty of Sciences of Bizerte (University of
+                Carthage)</strong>, where I'm ranked 5th of 36 in my program. My work spans data pipelines, backend
+              APIs, event streaming, and applied ML.
+            </p>
+            <p>
+              I'm leaning hard into <strong>LLM agents, RAG, and vision-language models</strong>, and I'm looking for
+              a 6-month final-year internship (PFE), January–July 2027, to build intelligent, data-driven systems with
+              a team that ships.
+            </p>
+          </div>
         </div>
-        <div class="skill-row grid">
-          <h3>Data engineering</h3>
-          <p class="items">ETL pipelines <i aria-hidden="true">/</i> Data warehousing (star schema) <i aria-hidden="true">/</i> Kafka <i aria-hidden="true">/</i> Pandas <i aria-hidden="true">/</i> NumPy <i aria-hidden="true">/</i> Streamlit <i aria-hidden="true">/</i> MLflow <i aria-hidden="true">/</i> DVC</p>
-          <p class="used"><b>Used in</b>Education Intelligence Platform, Fuel Monitoring</p>
+
+        <div class="notes grid">
+          <div class="note">
+            <h3>Education</h3>
+            <p><strong>National Engineering Degree, Data &amp; Software Engineering</strong>, Faculty of Sciences of
+              Bizerte, University of Carthage, 2023–2027. Ranked 5th of 36.</p>
+          </div>
+          <div class="note">
+            <h3>Languages</h3>
+            <p>Fluent in <strong>English</strong> and <strong>French</strong> (my language of instruction), native
+              <strong>Arabic</strong>.</p>
+          </div>
+          <div class="note">
+            <h3>Leadership</h3>
+            <p><strong>Technical lead</strong> on Mahara Match. <strong>Vice President</strong>, Interact Club North
+              Africa, leading 15+ members.</p>
+          </div>
         </div>
-        <div class="skill-row grid">
-          <h3>Languages</h3>
-          <p class="items">Python <i aria-hidden="true">/</i> SQL <i aria-hidden="true">/</i> Java <i aria-hidden="true">/</i> Go <i aria-hidden="true">/</i> JavaScript <i aria-hidden="true">/</i> TypeScript <i aria-hidden="true">/</i> C++</p>
-          <p class="used"><b>Used in</b>Every project; Go for MapReduce, Java at GTI</p>
-        </div>
-        <div class="skill-row grid">
-          <h3>Backend &amp; web</h3>
-          <p class="items">FastAPI <i aria-hidden="true">/</i> Django <i aria-hidden="true">/</i> Flask <i aria-hidden="true">/</i> Spring Boot <i aria-hidden="true">/</i> React <i aria-hidden="true">/</i> Angular <i aria-hidden="true">/</i> REST APIs <i aria-hidden="true">/</i> JUnit</p>
-          <p class="used"><b>Used in</b>GTI credit platform, MediDocs, Mahara Match, Fuel Monitoring</p>
-        </div>
-        <div class="skill-row grid">
-          <h3>Databases &amp; DevOps</h3>
-          <p class="items">PostgreSQL <i aria-hidden="true">/</i> pgvector <i aria-hidden="true">/</i> MySQL <i aria-hidden="true">/</i> MongoDB <i aria-hidden="true">/</i> Docker <i aria-hidden="true">/</i> Docker Compose <i aria-hidden="true">/</i> GitHub Actions (CI/CD) <i aria-hidden="true">/</i> Git <i aria-hidden="true">/</i> Linux <i aria-hidden="true">/</i> Postman</p>
-          <p class="used"><b>Used in</b>Mahara Match CI, nightly ETL on GitHub Actions, Dockerized Fuel and OCR stacks</p>
+
+        <div class="toolbox">
+          <h3>Toolbox</h3>
+          <p>Each one used in an internship or project on this page</p>
+
+          <div class="tool-row grid">
+            <h4>AI &amp; ML</h4>
+            <p class="items">LLM agents, RAG, LangGraph, tool calling, fine-tuning (QLoRA / PEFT), Hugging Face,
+              vision-language models, NLP, ChromaDB, Groq, Ollama, PyTorch, Scikit-learn, YOLO, OpenCV, Prophet</p>
+            <p class="used"><b>Used in</b>Claim-Verify RAG, Email → JSON, MediDocs, Fuel Monitoring, OCR API, Blind
+              Assistance</p>
+          </div>
+          <div class="tool-row grid">
+            <h4>Data engineering</h4>
+            <p class="items">ETL pipelines, data warehousing (star schema), Kafka, Pandas, NumPy, Streamlit, MLflow,
+              DVC</p>
+            <p class="used"><b>Used in</b>Education Intelligence Platform, Fuel Monitoring</p>
+          </div>
+          <div class="tool-row grid">
+            <h4>Languages</h4>
+            <p class="items">Python, SQL, Java, Go, JavaScript, TypeScript, C++</p>
+            <p class="used"><b>Used in</b>Every project; Go for MapReduce, Java at GTI</p>
+          </div>
+          <div class="tool-row grid">
+            <h4>Backend &amp; web</h4>
+            <p class="items">FastAPI, Django, Flask, Spring Boot, React, Angular, REST APIs, JUnit</p>
+            <p class="used"><b>Used in</b>GTI credit platform, MediDocs, Mahara Match, Fuel Monitoring</p>
+          </div>
+          <div class="tool-row grid">
+            <h4>Databases &amp; DevOps</h4>
+            <p class="items">PostgreSQL, pgvector, MySQL, MongoDB, Docker, Docker Compose, GitHub Actions (CI/CD),
+              Git, Linux, Postman</p>
+            <p class="used"><b>Used in</b>Mahara Match CI, nightly ETL on GitHub Actions, Dockerized Fuel and OCR
+              stacks</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Work index -->
-    <section class="sheet alt" id="work" aria-labelledby="work-h">
-      <div class="sheet-head">
-        <h2 id="work-h">Selected work</h2>
-        <p>Eight projects across AI, data, and systems</p>
-      </div>
-
-      <ol class="index">
-        <li><a href="#p-rag">
-            <span class="i-title">Claim-Verify RAG</span>
-            <span class="i-domain">RAG, hybrid search, fact-checking</span>
-            <span class="i-meta"><span class="status">Completed</span><span class="tag">Solo</span></span>
-          </a></li>
-        <li><a href="#p-qlora">
-            <span class="i-title">Recruitment Email → JSON</span>
-            <span class="i-domain">QLoRA fine-tuning, JSON extraction</span>
-            <span class="i-meta"><span class="status">Completed</span><span class="tag">Solo</span></span>
-          </a></li>
-        <li><a href="#p-mahara">
-            <span class="i-title">Mahara Match</span>
-            <span class="i-domain">AI job matching, contract-first services</span>
-            <span class="i-meta"><span class="status active">In progress</span><span class="tag">Tech lead</span></span>
-          </a></li>
-        <li><a href="#p-fuel">
-            <span class="i-title">Fuel Station Monitoring System</span>
-            <span class="i-domain">Kafka streaming, LLM agents, forecasting</span>
-            <span class="i-meta"><span class="status active">Active · improving</span><span class="tag">Team</span></span>
-          </a></li>
-        <li><a href="#p-bi">
-            <span class="i-title">Global Education Intelligence Platform</span>
-            <span class="i-domain">ETL, star-schema warehouse, BI</span>
-            <span class="i-meta"><span class="status">Completed</span></span>
-          </a></li>
-        <li><a href="#p-ocr">
-            <span class="i-title">OCR Invoice Parsing API</span>
-            <span class="i-domain">Document AI, YOLOv5, Tesseract</span>
-            <span class="i-meta"><span class="status">Completed</span><span class="tag">Duo</span></span>
-          </a></li>
-        <li><a href="#p-blind">
-            <span class="i-title">Blind Assistance IoT System</span>
-            <span class="i-domain">Computer vision, IoT, depth estimation</span>
-            <span class="i-meta"><span class="status">Completed</span><span class="tag">Team</span></span>
-          </a></li>
-        <li><a href="#p-mapreduce">
-            <span class="i-title">Thread-Based MapReduce</span>
-            <span class="i-domain">Concurrency in Go</span>
-            <span class="i-meta"><span class="status">Completed</span></span>
-          </a></li>
-      </ol>
-
-      <div class="sheet-foot">
-        <p class="hint">Each project has its own page below
-          <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-            aria-hidden="true"><path d="M6 1v9M2 6.5 6 10.5l4-4" /></svg></p>
+    <!-- Contact -->
+    <section class="contact on-plate" id="contact" aria-labelledby="contact-h">
+      <div class="wrap">
+        <h2 id="contact-h">Looking for a six&#8209;month PFE internship from January 2027.</h2>
+        <div class="contact-grid grid">
+          <div class="contact-mail">
+            <p>In Tunisia or abroad. Email is the fastest way to reach me.</p>
+            <a href="mailto:benarbiaemir@gmail.com">benarbiaemir@gmail.com</a>
+          </div>
+          <ul class="contact-links">
+            <li><a href="assets/projects/cv-benarbia-emir.pdf" download="cv-benarbia-emir.pdf">Download CV
+                <svg class="glyph down" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-down" /></svg></a></li>
+            <li><a href="https://github.com/Benarbiaa" target="_blank" rel="noopener">GitHub
+                <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a></li>
+            <li><a href="https://www.linkedin.com/in/emir-benarbia" target="_blank" rel="noopener">LinkedIn
+                <svg class="glyph out" viewBox="0 0 12 12" aria-hidden="true"><use href="#i-out" /></svg></a></li>
+          </ul>
+        </div>
       </div>
     </section>
-
-    <!-- Projects -->
-    <article class="sheet" id="p-rag" aria-labelledby="p-rag-h">
-      <div class="project-head grid">
-        <h2 id="p-rag-h">Claim-Verify RAG</h2>
-        <div class="project-meta">
-          <span class="status">Completed · Oct 2026</span>
-          <span class="tag">Solo project</span>
-          <a href="https://github.com/Benarbiaa/claim-verify-rag" target="_blank" rel="noopener">Source
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/rag.png"
-            alt="Architecture: a four-source corpus is cleaned, chunked, embedded locally and stored in pgvector; hybrid retrieval with a reranker feeds a cited draft, which is split into atomic claims, each re-verified across all sources by a separate judge model, producing a claims-by-sources verdict plate. Results: the proof reaches the judge for 37 of 44 claims, up from 23, and verdicts are correct on 9 of 10 gold claims"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it does</h3>
-            <p>A RAG system that <strong>does not trust its own answer</strong>. It drafts a cited answer,
-              splits it into atomic claims, and re-checks each claim independently against every source. Each claim
-              gets a verdict with the passages it was judged on: supported, contradicted, unverifiable, or
-              <strong>contested</strong> when the sources disagree with each other.</p>
-          </div>
-          <div>
-            <h3>How it's built</h3>
-            <p>PostgreSQL + pgvector with local bge embeddings, hybrid search (meaning + BM25) with a cross-encoder
-              reranker, per-document retrieval so every source is heard, and a LangGraph verification loop whose judge is a different model family from the drafter. Every stage is
-              swappable from one config file, and a FastAPI + React UI replays recorded runs and streams live ones.</p>
-          </div>
-          <div>
-            <h3>Results</h3>
-            <p>Every change was measured against a rule fixed in advance. Hybrid search and the reranker raised the
-              share of claims whose proof reaches the judge from <strong>23/44 to 37/44</strong>, and the verifier
-              scores <strong>9/10</strong> on a hand-checked gold set, with no false contradiction.</p>
-          </div>
-          <p class="stack">Python, LangGraph, PostgreSQL, pgvector, bge embeddings, BM25, cross-encoder reranker, Groq, Pydantic, FastAPI, React,
-            TypeScript</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="sheet alt" id="p-qlora" aria-labelledby="p-qlora-h">
-      <div class="project-head grid">
-        <h2 id="p-qlora-h">Recruitment Email → JSON</h2>
-        <div class="project-meta">
-          <span class="status">Completed · Oct 2026</span>
-          <span class="tag">Solo project</span>
-          <a href="https://github.com/Benarbiaa/email-extraction-qlora" target="_blank" rel="noopener">Source
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a>
-          <a href="https://huggingface.co/BenarbiaEmir/qwen3-4b-recruitment-email-json-qlora" target="_blank"
-            rel="noopener">Model
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/qlora.png"
-            alt="Pipeline: sampled specs, emails written by one generator model and blindly relabeled by another, schema and leakage checks, then QLoRA fine-tuning of Qwen3-4B on a T4 into schema-validated JSON. Example: a French test request resolves 'avant vendredi' to 2026-11-06. Results: exact match 19.5% zero-shot, 22.5% few-shot, 83.5% fine-tuned; 80% on emails from the other generator"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it does</h3>
-            <p>Fine-tunes <strong>Qwen3-4B with QLoRA</strong> to turn French, English or mixed recruitment emails
-              into a 10-field JSON record validated against a schema: email type, company, contract, interview stage,
-              sender role, and the deadline, resolved from the Date header (<em>avant vendredi</em> becomes a date).</p>
-          </div>
-          <div>
-            <h3>How it's built</h3>
-            <p>A <strong>synthetic data pipeline</strong>: specs sampled in Python, emails written by one generator
-              model and blindly relabeled by another (92% full-record agreement), and an n-gram leakage check between
-              train and test. Trained on one free Colab T4 (4-bit base, LoRA r16), checkpoint chosen on validation
-              loss, adapter published on Hugging Face with a Gradio demo.</p>
-          </div>
-          <div>
-            <h3>Results</h3>
-            <p>Full-record exact match on 200 synthetic test emails rises from <strong>22.5%</strong> (few-shot base
-              model) to <strong>83.5%</strong> (95% CI 78–88.5%), and 80% on emails written by a different model than
-              the training data. Labels are not hand-reviewed yet; the README documents what failed.</p>
-          </div>
-          <p class="stack">Python, PyTorch, Transformers, PEFT, TRL, bitsandbytes, Qwen3, JSON Schema, Gradio, Hugging
-            Face Hub</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="sheet" id="p-mahara" aria-labelledby="p-mahara-h">
-      <div class="project-head grid">
-        <h2 id="p-mahara-h">Mahara Match</h2>
-        <div class="project-meta">
-          <span class="status active">In progress</span>
-          <span class="tag">Technical lead</span>
-          <span class="private">
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"
-              aria-hidden="true"><use href="#i-lock" /></svg>
-            Private repo</span>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/mahara.png"
-            alt="Architecture: a six-step flow from CV upload to dashboard across four services that exchange data only through OpenAPI contracts, held together by CI, an end-to-end test and decision records"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it is</h3>
-            <p>An AI platform that matches job seekers, employers, training providers and public institutions through
-              one shared skill vocabulary. A CV becomes a structured profile, is matched to jobs with an explanation,
-              and missing skills turn into course recommendations.</p>
-          </div>
-          <div>
-            <h3>My role</h3>
-            <p>Technical lead. I designed the <strong>contract-first architecture</strong>: OpenAPI contracts with a
-              mock server each, so teams build in parallel. I set up CI, the end-to-end test of
-              the whole flow and the decision records, and I run the platform team: login and roles, and a 208-skill
-              taxonomy with Arabic labels.</p>
-          </div>
-          <p class="stack">Python, FastAPI, PostgreSQL, OpenAPI, Docker Compose, React, TypeScript, Playwright, GitHub
-            Actions</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="sheet alt" id="p-fuel" aria-labelledby="p-fuel-h">
-      <div class="project-head grid">
-        <h2 id="p-fuel-h">Fuel Station Monitoring System</h2>
-        <div class="project-meta">
-          <span class="status active">Active · improving</span>
-          <span class="tag">Team of 3 · extended solo</span>
-          <a href="https://github.com/Benarbiaa/Fuel-Monitoring-System" target="_blank" rel="noopener">Source
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/fuel.png"
-            alt="Architecture: station readings flow through a Kafka topic to an idempotent consumer and PostgreSQL; an LLM agent acts on critical alerts; FastAPI, a Groq chat assistant and an Angular dashboard serve the data"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it does</h3>
-            <p>Monitoring and forecasting platform for AGIL fuel stations. Station telemetry streams through
-              <strong>Kafka</strong> (keyed per tank, idempotent consumer, dead-letter topic) into PostgreSQL. Critical
-              alerts wake an <strong>autonomous LLM agent</strong> that reorders, notifies a manager, or escalates, with
-              every decision logged. Prophet forecasts stock, and a Groq-powered assistant answers questions using tool
-              calls and RAG over past reports.</p>
-          </div>
-          <div>
-            <h3>My part</h3>
-            <p>Built the FastAPI backend and the Prophet forecasting model, Dockerized the stack, then migrated
-              ingestion to Kafka on my own, documented in an architecture decision record and a debugging write-up.</p>
-          </div>
-          <p class="stack">Python, FastAPI, Kafka, PostgreSQL, Prophet, Groq, ChromaDB, Angular 16, Docker</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="sheet" id="p-bi" aria-labelledby="p-bi-h">
-      <div class="project-head grid">
-        <h2 id="p-bi-h">Global Education Intelligence Platform</h2>
-        <div class="project-meta">
-          <span class="status">Completed · Feb 2026</span>
-          <span>BI &amp; data warehouse</span>
-          <a href="https://github.com/Benarbiaa/Global-Education-Intelligence-Platform-Multi-source-Data-Integration-BI"
-            target="_blank" rel="noopener">Source
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/bi.png"
-            alt="Architecture: open-data APIs and CSVs feed five dependency-ordered ETL stages into a PostgreSQL star schema, served by a Django REST API to React and Streamlit"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it does</h3>
-            <p>Consolidates education, research, and public-spending data from many countries into one
-              <strong>PostgreSQL star-schema warehouse</strong>. Five dependency-ordered ETL stages load shared
-              dimensions first, then the research, education, enrollment, and expenditure marts.</p>
-          </div>
-          <div>
-            <h3>How it runs</h3>
-            <p>A <strong>nightly GitHub Actions job</strong> rebuilds the warehouse and emails a run report. A Django
-              REST API serves KPIs (graduation rates, student/staff ratios, university rankings, spending) to a React
-              frontend and Streamlit dashboards.</p>
-          </div>
-          <p class="stack">Python, PostgreSQL, Django, React, TypeScript, Streamlit, Docker, GitHub Actions</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="sheet alt" id="p-ocr" aria-labelledby="p-ocr-h">
-      <div class="project-head grid">
-        <h2 id="p-ocr-h">OCR Invoice Parsing API</h2>
-        <div class="project-meta">
-          <span class="status">Completed · Jan 2026</span>
-          <span class="tag">Duo project</span>
-          <a href="https://github.com/Benarbiaa/OCR" target="_blank" rel="noopener">Source
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/ocr.png"
-            alt="Pipeline: YOLOv5 detects supplier, date, table and total regions on an invoice, Tesseract and a regex parser turn them into JSON; training on FATURA annotations"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it does</h3>
-            <p>A FastAPI service that turns invoice images into structured JSON. A <strong>custom-trained
-                YOLOv5</strong> model locates the supplier, date, total, and item-table regions; Tesseract reads each
-              crop, and regex parsing maps French fields such as SIREN/SIRET and addresses. An optional Donut model
-              does end-to-end parsing.</p>
-          </div>
-          <div>
-            <h3>Details</h3>
-            <p>Training labels converted from the FATURA invoice dataset (PDF coordinates to YOLO format), automatic
-              dark-image inversion before OCR, and a single Docker image for deployment.</p>
-          </div>
-          <p class="stack">Python, FastAPI, YOLOv5, Tesseract, Donut, PyTorch, OpenCV, Docker</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="sheet" id="p-blind" aria-labelledby="p-blind-h">
-      <div class="project-head grid">
-        <h2 id="p-blind-h">Blind Assistance IoT System</h2>
-        <div class="project-meta">
-          <span class="status">Completed · Nov 2025</span>
-          <span class="tag">Team of 3</span>
-          <a href="https://github.com/saifallah1234/Blind-Assistance" target="_blank" rel="noopener">Team repo
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/blind.png"
-            alt="Architecture: ESP32 sensors and a Raspberry Pi camera post to a Flask API backed by PostgreSQL and MongoDB; an Apple DepthPro pipeline adds per-object distances shown on a Streamlit dashboard"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it does</h3>
-            <p>Wearable assistive system for the visually impaired. An ESP32 reads ultrasonic and PIR sensors for
-              real-time haptic alerts, while a Raspberry Pi runs <strong>YOLO object detection and Apple
-                DepthPro</strong> to estimate metric distances, all streamed to a live Streamlit dashboard.</p>
-          </div>
-          <div>
-            <h3>My part</h3>
-            <p>Built the depth pipeline: it pulls each frame and its YOLO detections from the API, runs Apple DepthPro
-              for monocular metric depth, and posts per-object distances back for the dashboard.</p>
-          </div>
-          <p class="stack">Python, Flask, YOLO, DepthPro, PyTorch, ESP32, PostgreSQL, MongoDB</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="sheet alt" id="p-mapreduce" aria-labelledby="p-mapreduce-h">
-      <div class="project-head grid">
-        <h2 id="p-mapreduce-h">Thread-Based MapReduce System</h2>
-        <div class="project-meta">
-          <span class="status">Completed</span>
-          <span class="private">
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"
-              aria-hidden="true"><use href="#i-lock" /></svg>
-            Unavailable</span>
-        </div>
-      </div>
-      <div class="project-body grid">
-        <div class="project-media diagram">
-          <img src="assets/projects/mapreduce.png"
-            alt="Architecture: input splits flow through a task channel to a pool of map goroutines, are shuffled by key hash to reducers, and merged"
-            loading="lazy">
-        </div>
-        <div class="project-text">
-          <div>
-            <h3>What it does</h3>
-            <p>A concurrent MapReduce framework built from scratch in Go. A <strong>thread-safe worker pool</strong>
-              pulls tasks from a channel, so work balances itself across goroutines; intermediate results are
-              partitioned by key before the reduce phase.</p>
-          </div>
-          <div>
-            <h3>Result</h3>
-            <p>Benchmarked against single-threaded execution on large processing workloads, with a clear speedup.</p>
-          </div>
-          <p class="stack">Go, goroutines, channels, concurrency</p>
-        </div>
-      </div>
-    </article>
-
-
   </main>
 
-  <!-- Contact -->
-  <section class="sheet contact on-blue" id="contact" aria-labelledby="contact-h">
-    <h2 id="contact-h">Let's build<br>something.</h2>
-    <div class="contact-grid grid">
-      <div class="contact-mail">
-        <p>Open to PFE internships from January 2027, in Tunisia or abroad. Email is the fastest way to reach me.</p>
-        <a href="mailto:benarbiaemir@gmail.com">benarbiaemir@gmail.com</a>
-      </div>
-      <ul class="contact-links">
-        <li><a href="assets/projects/cv-benarbia-emir.pdf" download="cv-benarbia-emir.pdf">Download CV
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><path d="M6 1v9M2 6.5 6 10.5l4-4" /></svg></a></li>
-        <li><a href="https://github.com/Benarbiaa" target="_blank" rel="noopener">GitHub
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a></li>
-        <li><a href="https://www.linkedin.com/in/emir-benarbia" target="_blank" rel="noopener">LinkedIn
-            <svg class="arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"
-              aria-hidden="true"><use href="#i-out" /></svg></a></li>
-      </ul>
-    </div>
-    <footer>
+  <footer class="foot on-plate">
+    <div class="wrap">
       <span>© <span id="year">2026</span> Benarbia Emir</span>
       <a href="#top">Back to top</a>
-    </footer>
-  </section>
+    </div>
+  </footer>
+
+  <!-- Full-size diagram viewer -->
+  <dialog class="viewer on-plate" id="viewer" aria-labelledby="viewer-title">
+    <div class="viewer-bar">
+      <p id="viewer-title"></p>
+      <button class="viewer-close" type="button">Close</button>
+    </div>
+    <div class="viewer-scroll" tabindex="0"><img alt=""></div>
+  </dialog>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="i-out" viewBox="0 0 12 12">
       <path d="M3 9 9.5 2.5M4 2.5h5.5V8" />
+    </symbol>
+    <symbol id="i-down" viewBox="0 0 12 12">
+      <path d="M6 1v9M2 6.5 6 10.5l4-4" />
     </symbol>
     <symbol id="i-lock" viewBox="0 0 12 12">
       <rect x="2.5" y="5.5" width="7" height="5" />
       <path d="M4 5.5V4a2 2 0 0 1 4 0v1.5" />
     </symbol>
   </svg>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Mobile menu
-    const toggle = document.querySelector('.bar-toggle');
-    const links = document.getElementById('bar-links');
-    const setMenu = (open) => {
-      links.classList.toggle('open', open);
-      toggle.setAttribute('aria-expanded', open);
-      toggle.textContent = open ? 'Close' : 'Menu';
-    };
-    toggle.addEventListener('click', () => setMenu(!links.classList.contains('open')));
-    links.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
-
-    // Highlight the nav item for the section in view (project pages count as Work)
-    const navLinks = [...links.querySelectorAll('a[href^="#"]')];
-    const navFor = (el) => el.id.startsWith('p-') ? 'work' : el.id;
-    const spy = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        const id = navFor(e.target);
-        navLinks.forEach(a => {
-          const on = a.getAttribute('href') === '#' + id;
-          a.classList.toggle('active', on);
-          if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
-        });
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    document.querySelectorAll('.hero, .sheet').forEach(s => spy.observe(s));
-  </script>
 </body>
 
 </html>
