@@ -342,6 +342,21 @@ main,
   padding-block: clamp(56px, 11vh, 128px) var(--s-8);
 }
 
+/* Statement on the left, portrait on the right */
+.hero-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(170px, 24%, 290px);
+  gap: var(--s-6) var(--gutter);
+  align-items: start;
+}
+
+.hero-photo img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
 .hero-title {
   font-family: var(--display);
   font-size: var(--t-hero);
@@ -1040,50 +1055,41 @@ main,
   margin-top: var(--s-4);
 }
 
-/* 9. About ──────────────────────────────────────────────────── */
+/* 9. About + background ─────────────────────────────────────── */
+.intro {
+  padding-top: var(--s-7);
+}
+
+/* Lead sentence on the left, the two paragraphs stacked on the right */
 .about {
   display: grid;
-  grid-template-columns: minmax(0, 8fr) minmax(0, 3fr);
-  gap: var(--s-6) var(--gutter);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--s-5) var(--gutter);
   align-items: start;
 }
 
 .about-lead {
   font-family: var(--display);
-  font-size: clamp(1.6rem, 1.1rem + 1.9vw, 2.6rem);
+  font-size: clamp(1.6rem, 1.1rem + 1.5vw, 2.3rem);
   font-weight: 600;
   line-height: 1.12;
   letter-spacing: -.03em;
-  max-width: 24ch;
+  max-width: 26ch;
   text-wrap: balance;
 }
 
 .about-body {
-  grid-column: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--gutter);
+  gap: var(--s-4);
   color: var(--ink-2);
+  padding-top: .4em;
 }
 
 .about-body strong {
   color: var(--ink);
 }
 
-.about-photo {
-  grid-column: 2;
-  grid-row: 1 / 3;
-}
-
-.about-photo img {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: var(--radius);
-}
-
 .notes {
-  margin-top: var(--s-8);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s-6) var(--gutter);
@@ -1360,11 +1366,11 @@ main,
   .rail-nav {
     margin-top: 0;
     flex-direction: row;
-    gap: clamp(14px, 3vw, 32px);
+    gap: clamp(12px, 3vw, 32px);
   }
 
   .rail-nav a {
-    font-size: .95rem;
+    font-size: clamp(.875rem, .8rem + .4vw, .95rem);
     transition: color .2s;
   }
 
@@ -1427,7 +1433,8 @@ main,
 
   .job,
   .tool-row,
-  .contact-grid {
+  .contact-grid,
+  .about {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -1445,9 +1452,14 @@ main,
   .notes,
   .case-body,
   .split-text,
-  .about,
-  .about-body {
+  .hero-top {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Portrait leads on a phone */
+  .hero-photo {
+    order: -1;
+    width: 132px;
   }
 
   /* Map: the name sits above its run instead of beside it */
@@ -1510,12 +1522,6 @@ main,
 
   .contact-panel {
     padding-inline: var(--pad);
-  }
-
-  .about-photo {
-    grid-column: 1;
-    grid-row: auto;
-    width: min(200px, 55%);
   }
 }
 
